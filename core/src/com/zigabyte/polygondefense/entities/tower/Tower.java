@@ -8,11 +8,11 @@ import com.zigabyte.polygondefense.level.Level;
 import com.zigabyte.polygondefense.math.Vector2f;
 
 public class Tower extends Entity {
-	
-	private Polygon polygon;
-	private Color color;
 
-	private float rotation;
+	protected Polygon polygon;
+	protected Color color;
+
+	protected float rotation;
 
 	public Tower(Level level, Vector2f pos) {
 		super(level, pos);

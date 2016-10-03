@@ -18,11 +18,10 @@ public class Game extends ApplicationAdapter {
 	public void create() {
 		Gdx.input.setInputProcessor(new Input());
 
-
 		render = new Render();
 		SpriteLoader.loadSprites();
 
-		level = new Level();
+		level = new Level(this);
 	}
 
 	public void update() {
@@ -34,9 +33,9 @@ public class Game extends ApplicationAdapter {
 	public void render() {
 		// Dirty temporary reset feature
 		if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.R)) {
-			level = new Level();
+			level = new Level(this);
 		}
-		
+
 		render.begin();
 
 		update();

@@ -2,6 +2,7 @@ package com.zigabyte.polygondefense.level;
 
 import java.util.ArrayList;
 
+import com.zigabyte.polygondefense.Game;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
 import com.zigabyte.polygondefense.entities.mobs.Mob;
@@ -10,12 +11,16 @@ import com.zigabyte.polygondefense.entities.ui.Button;
 import com.zigabyte.polygondefense.entities.ui.MenuBarBottom;
 import com.zigabyte.polygondefense.entities.ui.UIElement;
 import com.zigabyte.polygondefense.graphics.Render;
-import com.zigabyte.polygondefense.input.Click;
+import com.zigabyte.polygondefense.input.Controller;
 import com.zigabyte.polygondefense.input.Input;
+import com.zigabyte.polygondefense.level.Tile.State;
 import com.zigabyte.polygondefense.math.Vector2f;
 import com.zigabyte.polygondefense.math.Vector2i;
 
 public class Level {
+
+	private Game game;
+	public Controller controller;
 
 	public final int TILE_WIDTH;
 	public final int TILE_HEIGHT;
@@ -28,8 +33,12 @@ public class Level {
 
 	private ArrayList<Tile> tiles = new ArrayList<Tile>();
 
-	public Level() {
-		addEntity(new Tower(this, new Vector2f(200, 200)));
+	public Level(Game game) {
+		this.game = game;
+
+		controller = new Controller(this);
+
+		//addEntity(new Tower(this, new Vector2f(200, 200)));
 		addEntity(new Mob(this, new Vector2f(-100, 100)));
 
 		ui.add(new MenuBarBottom(this));
@@ -49,6 +58,10 @@ public class Level {
 		for (int x = 0; x < TILES_X; x++) {
 			for (int y = 0; y < TILES_Y; y++) {
 				tiles.add(new Tile(this, new Vector2i(x, y)));
+
+				if (y == 0 || y == TILES_Y - 1) {
+					getTile(x, y).state = State.BLOCKED;
+				}
 			}
 		}
 
@@ -67,6 +80,9 @@ public class Level {
 		}
 	}
 
+	/**
+	 * Pass the input to different parts of the game and see if they accept it
+	 */
 	private void processInput() {
 		if (Input.ready()) {
 			Vector2f input = Input.inputs.get(0).getPos();
@@ -75,8 +91,13 @@ public class Level {
 			// Send input to ui first
 			for (int i = 0; i < ui.size(); i++) {
 				if (ui.get(i).processInput(input)) {
-					break;
+					return;
 				}
+			}
+
+			// Controller second
+			if (controller.processInput(input)) {
+				return;
 			}
 		}
 	}
@@ -108,6 +129,12 @@ public class Level {
 		}
 	}
 
+	private void renderTiles(Render render) {
+		for (int i = 0; i < tiles.size(); i++) {
+			tiles.get(i).render(render);
+		}
+	}
+
 	/**
 	 * Render the level.
 	 */
@@ -119,15 +146,10 @@ public class Level {
 			render.drawLine(100 * i, 0, 100 * i, 900);
 		}
 
+		renderTiles(render);
 		renderEntities(render);
 		renderNodes(render);
 		renderUI(render);
-
-		// render.drawPolygon(new Polygon(7, 50));
-		// render.drawPolygon(new Polygon(3, 100), Color.BLUE, +600, 300, 45);
-		// render.drawPolygon(new Polygon(4, 150), Color.ORANGE, +200, -100, 72);
-		// render.drawPolygon(new Polygon(5, 90), Color.RED, -500, -300);
-		// render.drawPolygon(new Polygon(9, 70), Color.GREEN, -300, 250);
 	}
 
 	public void addEntity(Entity e) {
@@ -138,11 +160,21 @@ public class Level {
 		entities.remove(e);
 	}
 
-	public Tile getTile(int x, int y) {
-		/*
-		 * for (Tile t : tiles) if (t.pos.x == x && t.pos.y == y) { return t; }
-		 */
+	/**
+	 * Gets tile from world coordinates
+	 */
+	public Tile getTile(float x, float y) {
+		return getTile((int) (x / TILE_WIDTH), (int) (y / TILE_HEIGHT));
+	}
 
+	public Tile getTile(Vector2f v) {
+		return getTile(v.x, v.y);
+	}
+
+	/**
+	 * Gets tile by tile index
+	 */
+	public Tile getTile(int x, int y) {
 		return tiles.get(x * TILES_Y + y);
 	}
 

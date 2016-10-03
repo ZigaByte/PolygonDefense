@@ -3,6 +3,7 @@ package com.zigabyte.polygondefense.entities.ui;
 import com.badlogic.gdx.graphics.Color;
 import com.zigabyte.polygondefense.graphics.Polygon;
 import com.zigabyte.polygondefense.graphics.Render;
+import com.zigabyte.polygondefense.input.Controller.State;
 import com.zigabyte.polygondefense.level.Level;
 import com.zigabyte.polygondefense.math.Rectangle;
 import com.zigabyte.polygondefense.math.Vector2f;
@@ -22,9 +23,14 @@ public class Button extends UIElement {
 
 	@Override
 	public boolean processInput(Vector2f input) {
+		boolean process = rect.isInside(input);
+
+		if (process) {
+			level.controller.state = State.ACTIVE;
+		}
 		// System.out.println("Input detected > " + input.x + " " + input.y);
 		// System.out.println(rect.isInside(input));
-		return rect.isInside(input);
+		return process;
 	}
 
 	@Override

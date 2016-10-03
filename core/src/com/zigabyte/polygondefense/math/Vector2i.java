@@ -43,4 +43,8 @@ public class Vector2i {
 	public Vector2f mul(int dx, int dy) {
 		return new Vector2f(x * dx, y * dy);
 	}
+
+	public Vector2f toVector2f() {
+		return new Vector2f(x, y);
+	}
 }
