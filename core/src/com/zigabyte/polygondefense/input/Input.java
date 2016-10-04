@@ -38,6 +38,10 @@ public class Input implements InputProcessor {
 			}
 		}
 
+		if (keycode == com.badlogic.gdx.Input.Keys.ESCAPE) {
+			System.exit(0);
+		}
+
 		return true;
 	}
 

@@ -1,6 +1,9 @@
 package com.zigabyte.polygondefense.input;
 
-import com.zigabyte.polygondefense.entities.tower.Tower;
+import com.zigabyte.polygondefense.entities.tower.TowerHexagon;
+import com.zigabyte.polygondefense.entities.tower.TowerPentagon;
+import com.zigabyte.polygondefense.entities.tower.TowerSquare;
+import com.zigabyte.polygondefense.entities.tower.TowerTriangle;
 import com.zigabyte.polygondefense.level.Level;
 import com.zigabyte.polygondefense.level.Tile;
 import com.zigabyte.polygondefense.math.Vector2f;
@@ -15,6 +18,7 @@ public class Controller {
 	}
 
 	public State state;
+	public Mode mode;
 
 	private Level level;
 
@@ -30,7 +34,23 @@ public class Controller {
 
 			// Spawn a new tower if the tile is free
 			if (tile.state == Tile.State.FREE) {
-				level.addEntity(new Tower(level, tile.getCenter()));
+
+				switch (mode) {
+				case TRIANGLE:
+					level.addEntity(new TowerTriangle(level, tile.getCenter()));
+					break;
+				case SQUARE:
+					level.addEntity(new TowerSquare(level, tile.getCenter()));
+					break;
+				case PENTAGON:
+					level.addEntity(new TowerPentagon(level, tile.getCenter()));
+					break;
+				case HEXAGON:
+					level.addEntity(new TowerHexagon(level, tile.getCenter()));
+					break;
+				default:
+					break;
+				}
 				tile.state = Tile.State.BLOCKED;
 
 				this.state = State.IDLE;

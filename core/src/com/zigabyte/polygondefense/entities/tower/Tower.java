@@ -7,7 +7,7 @@ import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.level.Level;
 import com.zigabyte.polygondefense.math.Vector2f;
 
-public class Tower extends Entity {
+public abstract class Tower extends Entity {
 
 	protected Polygon polygon;
 	protected Color color;
@@ -17,7 +17,6 @@ public class Tower extends Entity {
 	public Tower(Level level, Vector2f pos) {
 		super(level, pos);
 
-		polygon = new Polygon(5, 45);
 		color = new Color(1, 1, 1, 1);
 	}
 

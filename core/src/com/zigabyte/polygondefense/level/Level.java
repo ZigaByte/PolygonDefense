@@ -6,10 +6,12 @@ import com.zigabyte.polygondefense.Game;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
 import com.zigabyte.polygondefense.entities.mobs.Mob;
-import com.zigabyte.polygondefense.entities.tower.Tower;
-import com.zigabyte.polygondefense.entities.ui.Button;
 import com.zigabyte.polygondefense.entities.ui.MenuBarBottom;
 import com.zigabyte.polygondefense.entities.ui.UIElement;
+import com.zigabyte.polygondefense.entities.ui.top.ButtonHexagon;
+import com.zigabyte.polygondefense.entities.ui.top.ButtonPentagon;
+import com.zigabyte.polygondefense.entities.ui.top.ButtonSquare;
+import com.zigabyte.polygondefense.entities.ui.top.ButtonTriangle;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.input.Controller;
 import com.zigabyte.polygondefense.input.Input;
@@ -38,19 +40,22 @@ public class Level {
 
 		controller = new Controller(this);
 
-		//addEntity(new Tower(this, new Vector2f(200, 200)));
+		// addEntity(new Tower(this, new Vector2f(200, 200)));
 		addEntity(new Mob(this, new Vector2f(-100, 100)));
 
 		ui.add(new MenuBarBottom(this));
-		ui.add(new Button(this));
+		ui.add(new ButtonTriangle(this));
+		ui.add(new ButtonSquare(this));
+		ui.add(new ButtonPentagon(this));
+		ui.add(new ButtonHexagon(this));
 
 		/*
 		 * nodes.add(new Tile(new Vector2i(5, 5))); nodes.add(new Tile(new Vector2i(6, 6))); nodes.add(new Tile(new Vector2i(2, 8))); nodes.add(new
 		 * Tile(new Vector2i(7, 3)));
 		 */
 
-		TILES_X = 16;
-		TILES_Y = 9;
+		TILES_X = (int) (16 * 1.5f);
+		TILES_Y = (int) (9 * 1.5f);
 
 		TILE_WIDTH = Render.WIDTH / TILES_X;
 		TILE_HEIGHT = Render.HEIGHT / TILES_Y;
@@ -140,10 +145,10 @@ public class Level {
 	 */
 	public void render(Render render) {
 
-		for (int i = 0; i < 16; i++) {
-			if (i < 9)
-				render.drawLine(0, 100 * i, 1600, 100 * i);
-			render.drawLine(100 * i, 0, 100 * i, 900);
+		for (int i = 0; i < TILES_X; i++) {
+			if (i < TILES_Y)
+				render.drawLine(0, TILE_HEIGHT * i, 1600, TILE_HEIGHT * i);
+			render.drawLine(TILE_WIDTH * i, 0, TILE_WIDTH * i, 900);
 		}
 
 		renderTiles(render);
