@@ -12,6 +12,7 @@ import com.zigabyte.polygondefense.entities.ui.top.ButtonHexagon;
 import com.zigabyte.polygondefense.entities.ui.top.ButtonPentagon;
 import com.zigabyte.polygondefense.entities.ui.top.ButtonSquare;
 import com.zigabyte.polygondefense.entities.ui.top.ButtonTriangle;
+import com.zigabyte.polygondefense.entities.ui.top.ButtonWall;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.input.Controller;
 import com.zigabyte.polygondefense.input.Input;
@@ -24,10 +25,18 @@ public class Level {
 	private Game game;
 	public Controller controller;
 
-	public final int TILE_WIDTH;
-	public final int TILE_HEIGHT;
+	public final float TILE_WIDTH;
+	public final float TILE_HEIGHT;
 	public final int TILES_X;
 	public final int TILES_Y;
+
+	public final float LEVEL_WIDTH;
+	public final float LEVEL_HEIGHT;
+
+	public final int X_PADDING_LEFT = 50;
+	public final int X_PADDING_RIGHT = 50;
+	public final int Y_PADDING_BOTTOM = 200;
+	public final int Y_PADDING_TOP = 200;
 
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<UIElement> ui = new ArrayList<UIElement>();
@@ -48,23 +57,27 @@ public class Level {
 		ui.add(new ButtonSquare(this));
 		ui.add(new ButtonPentagon(this));
 		ui.add(new ButtonHexagon(this));
+		ui.add(new ButtonWall(this));
 
 		/*
 		 * nodes.add(new Tile(new Vector2i(5, 5))); nodes.add(new Tile(new Vector2i(6, 6))); nodes.add(new Tile(new Vector2i(2, 8))); nodes.add(new
 		 * Tile(new Vector2i(7, 3)));
 		 */
 
-		TILES_X = (int) (16 * 1.5f);
-		TILES_Y = (int) (9 * 1.5f);
+		TILES_X = (int) (16 * 1.0f);
+		TILES_Y = (int) (9 * 1.0f);
 
-		TILE_WIDTH = Render.WIDTH / TILES_X;
-		TILE_HEIGHT = Render.HEIGHT / TILES_Y;
+		LEVEL_WIDTH = Render.WIDTH - (X_PADDING_LEFT + X_PADDING_RIGHT);
+		LEVEL_HEIGHT = Render.HEIGHT - (Y_PADDING_BOTTOM + Y_PADDING_TOP);
+
+		TILE_WIDTH = LEVEL_WIDTH / TILES_X;
+		TILE_HEIGHT = LEVEL_HEIGHT / TILES_Y;
 
 		for (int x = 0; x < TILES_X; x++) {
 			for (int y = 0; y < TILES_Y; y++) {
 				tiles.add(new Tile(this, new Vector2i(x, y)));
 
-				if (y == 0 || y == TILES_Y - 1) {
+				if (y <= 0 || y >= TILES_Y - 1) {
 					getTile(x, y).state = State.BLOCKED;
 				}
 			}
@@ -145,10 +158,12 @@ public class Level {
 	 */
 	public void render(Render render) {
 
+		// DEBUG LINES
 		for (int i = 0; i < TILES_X; i++) {
 			if (i < TILES_Y)
-				render.drawLine(0, TILE_HEIGHT * i, 1600, TILE_HEIGHT * i);
-			render.drawLine(TILE_WIDTH * i, 0, TILE_WIDTH * i, 900);
+				render.drawLine(X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM, LEVEL_WIDTH + X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM);
+			float t = (LEVEL_WIDTH - X_PADDING_RIGHT + X_PADDING_LEFT);
+			render.drawLine(TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM, TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM + LEVEL_HEIGHT);
 		}
 
 		renderTiles(render);
@@ -169,7 +184,15 @@ public class Level {
 	 * Gets tile from world coordinates
 	 */
 	public Tile getTile(float x, float y) {
-		return getTile((int) (x / TILE_WIDTH), (int) (y / TILE_HEIGHT));
+		float xWorld = x - X_PADDING_LEFT;
+		float yWorld = y - Y_PADDING_BOTTOM;
+
+		// Make sure the x and y are in bounds of the tile array.
+		if (xWorld < 0 || yWorld < 0 || xWorld > LEVEL_WIDTH || yWorld > LEVEL_HEIGHT) {
+			return null;
+		}
+
+		return getTile((int) (xWorld / TILE_WIDTH), (int) (yWorld / TILE_HEIGHT));
 	}
 
 	public Tile getTile(Vector2f v) {

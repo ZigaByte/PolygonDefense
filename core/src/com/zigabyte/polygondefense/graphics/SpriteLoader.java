@@ -1,13 +1,12 @@
 package com.zigabyte.polygondefense.graphics;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class SpriteLoader {
 
 	// Array of sprites generated from the sprites.png file
 	// sprites[ROW][COLUMN]
-	private static TextureRegion[][] sprites;
+	//private static TextureRegion[][] sprites;
 	private static Texture test;
 
 	public static void loadSprites() {

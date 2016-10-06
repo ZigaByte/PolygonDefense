@@ -9,8 +9,14 @@ import com.zigabyte.polygondefense.math.Vector2i;
 
 public class Tile extends Entity {
 
+	/**
+	 * FREE - no wall - enemies can move through.
+	 * WALL - a tower can be placed on top, no entities movement.
+	 * TAKEN - a tile with a wall and a tower. No entities movement allowed.
+	 * BLOCKED - a wall on which a tower cannot be placed.
+	 * */
 	public enum State {
-		BLOCKED, FREE, TAKEN;
+		BLOCKED, FREE, WALL, TAKEN;
 	}
 
 	public Node node;
@@ -30,8 +36,9 @@ public class Tile extends Entity {
 	}
 
 	public Vector2f getCenter() {
-		return new Vector2f(pos.x * level.TILE_WIDTH + level.TILE_WIDTH / 2,
-				pos.y * level.TILE_HEIGHT + level.TILE_HEIGHT / 2);
+		float x = level.X_PADDING_LEFT + (pos.x * level.TILE_WIDTH + level.TILE_WIDTH / 2);
+		float y = level.Y_PADDING_BOTTOM + (pos.y * level.TILE_HEIGHT + level.TILE_HEIGHT / 2);
+		return new Vector2f(x, y);
 	}
 
 	@Override
@@ -39,23 +46,49 @@ public class Tile extends Entity {
 
 	}
 
+	public void renderRect(Render render) {
+		Vector2f center = getCenter();
+		float width = level.TILE_WIDTH;
+		float height = level.TILE_HEIGHT;
+
+		render.shapeRenderer.rect(center.x - width / 2, center.y - height / 2, width, height);
+	}
+
 	@Override
 	public void render(Render render) {
 
+		// Render the wall
+		if (state == State.WALL || state == State.TAKEN) {
+			render.shapeRenderer.setColor(0, 0, 0, 0.2f);
+			renderRect(render);
+		} else if (state == State.BLOCKED) {
+			render.shapeRenderer.setColor(0, 0, 0, 0.75f);
+			renderRect(render);
+		}
+
 		// Draw the inactive if the controller is trying to place something
 		if (level.controller.state == Controller.State.ACTIVE) {
-			Vector2f center = getCenter();
-			int width = level.TILE_WIDTH;
-			int height = level.TILE_HEIGHT;
 
-			// Set the color of the tile depending if the user can place on top or not
-			if (state == State.FREE) {
-				render.shapeRenderer.setColor(0, 1, 0, 0.2f);
-			} else if (state == State.TAKEN || state == State.BLOCKED) {
+			render.shapeRenderer.setColor(1, 0, 0, 0.2f);
+			/*if (state == State.TAKEN || state == State.BLOCKED) {
+			}else*/
+			if (state == State.WALL || state == State.FREE) {
+
 				render.shapeRenderer.setColor(1, 0, 0, 0.2f);
-			}
 
-			render.shapeRenderer.rect(center.x - width / 2, center.y - height / 2, width, height);
+				switch (level.controller.mode) {
+				case WALL:
+					if (state == State.FREE)
+						render.shapeRenderer.setColor(0, 1, 0, 0.2f);
+					break;
+				default:
+					if (state == State.WALL)
+						render.shapeRenderer.setColor(0, 1, 0, 0.2f);
+					break;
+				}
+			}
+			renderRect(render);
+			//render.shapeRenderer.rect(center.x - width / 2, center.y - height / 2, width, height);
 		}
 	}
 

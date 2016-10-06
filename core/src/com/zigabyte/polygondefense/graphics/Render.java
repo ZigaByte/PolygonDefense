@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Matrix4;
 
 public class Render {
 
@@ -70,7 +69,7 @@ public class Render {
 
 	}
 
-	public void drawLine(int x0, int y0, int x1, int y1) {
+	public void drawLine(float x0, float y0, float x1, float y1) {
 		shapeRenderer.setColor(0, 0, 0, 1);
 		shapeRenderer.line(x0, y0, x1, y1);
 	}

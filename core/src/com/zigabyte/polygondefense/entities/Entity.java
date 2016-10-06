@@ -1,6 +1,5 @@
 package com.zigabyte.polygondefense.entities;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.level.Level;
 import com.zigabyte.polygondefense.math.Vector2f;

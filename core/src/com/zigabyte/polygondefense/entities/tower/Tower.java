@@ -3,7 +3,6 @@ package com.zigabyte.polygondefense.entities.tower;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.utils.Array;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.mobs.Mob;
 import com.zigabyte.polygondefense.graphics.Polygon;

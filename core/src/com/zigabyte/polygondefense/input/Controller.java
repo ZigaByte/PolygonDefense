@@ -1,5 +1,6 @@
 package com.zigabyte.polygondefense.input;
 
+import com.zigabyte.polygondefense.entities.tower.Tower;
 import com.zigabyte.polygondefense.entities.tower.TowerHexagon;
 import com.zigabyte.polygondefense.entities.tower.TowerPentagon;
 import com.zigabyte.polygondefense.entities.tower.TowerSquare;
@@ -28,36 +29,58 @@ public class Controller {
 
 	}
 
+	private void addWall(Tile tile) {
+		if (tile == null)
+			return;
+
+		if (tile.state == Tile.State.FREE) {
+			tile.state = Tile.State.WALL;
+		}
+	}
+
+	private void addTower(Tile tile, Tower towerTriangle) {
+		if (tile == null)
+			return;
+
+		if (tile.state == Tile.State.WALL) {
+			level.addEntity(towerTriangle);
+			tile.state = Tile.State.TAKEN;
+		}
+	}
+
 	public boolean processInput(Vector2f input) {
 		if (state == State.ACTIVE) {
 			Tile tile = level.getTile(input);
 
-			// Spawn a new tower if the tile is free
-			if (tile.state == Tile.State.FREE) {
+			this.state = State.IDLE;
 
-				switch (mode) {
-				case TRIANGLE:
-					level.addEntity(new TowerTriangle(level, tile.getCenter()));
-					break;
-				case SQUARE:
-					level.addEntity(new TowerSquare(level, tile.getCenter()));
-					break;
-				case PENTAGON:
-					level.addEntity(new TowerPentagon(level, tile.getCenter()));
-					break;
-				case HEXAGON:
-					level.addEntity(new TowerHexagon(level, tile.getCenter()));
-					break;
-				default:
-					break;
-				}
-				tile.state = Tile.State.BLOCKED;
-
-				this.state = State.IDLE;
+			if (tile == null) {
+				// You clicked past the grid!
+				return true;
 			}
+			switch (mode) {
+			case TRIANGLE:
+				addTower(tile, new TowerTriangle(level, tile.getCenter()));
+				break;
+			case SQUARE:
+				addTower(tile, new TowerSquare(level, tile.getCenter()));
+				break;
+			case PENTAGON:
+				addTower(tile, new TowerPentagon(level, tile.getCenter()));
+				break;
+			case HEXAGON:
+				addTower(tile, new TowerHexagon(level, tile.getCenter()));
+				break;
+			case WALL:
+				addWall(tile);
+				break;
+			}
+
+			// Once something was placed, set the controller state to idle
 
 			return true;
 		}
 		return false;
 	}
+
 }

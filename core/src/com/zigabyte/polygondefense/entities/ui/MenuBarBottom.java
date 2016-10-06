@@ -31,7 +31,7 @@ public class MenuBarBottom extends UIElement{
 
 	@Override
 	public void render(Render render) {
-		render.drawPolygon(background, new Color(0.2f, 0.2f, 0.2f, 0.8f), 0, 0);
-		render.drawPolygon(useless, new Color(0.5f, 0.5f, 0.5f, 0.8f), 20, 115);
+		render.drawPolygon(background, new Color(0.2f, 0.2f, 0.2f, 1f), 0, 0);
+		render.drawPolygon(useless, new Color(0.5f, 0.5f, 0.5f, 1f), 20, 115);
 	}
 }

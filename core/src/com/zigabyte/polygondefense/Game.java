@@ -2,7 +2,6 @@ package com.zigabyte.polygondefense;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.graphics.SpriteLoader;
 import com.zigabyte.polygondefense.input.Input;
