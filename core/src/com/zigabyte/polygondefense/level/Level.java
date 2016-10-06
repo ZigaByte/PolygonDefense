@@ -190,4 +190,13 @@ public class Level {
 	public Node getNode(int i) {
 		return nodes.get(i);
 	}
+
+	public ArrayList<Mob> getMobs() {
+		ArrayList<Mob> mobs = new ArrayList<Mob>();
+		for (Entity e : entities) {
+			if (e instanceof Mob)
+				mobs.add((Mob) e);
+		}
+		return mobs;
+	}
 }

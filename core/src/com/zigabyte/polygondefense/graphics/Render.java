@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Matrix4;
 
 public class Render {
 
@@ -51,7 +52,7 @@ public class Render {
 		rotation = rotation * 180 / 3.14f; // Convert to degrees
 
 		shapeRenderer.setColor(color);
-		//shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.5f);
+		// shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.5f);
 
 		// Draw the individual vertices triangles with vertices
 
@@ -85,7 +86,7 @@ public class Render {
 		float r = 220 / 255f;
 		Gdx.gl.glClearColor(r, r, r, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -96,10 +97,10 @@ public class Render {
 	public void end() {
 		// Reset the position of the render origin
 		shapeRenderer.translate(WIDTH / 2, HEIGHT / 2, 0);
-		
+
 		shapeRenderer.end();
 		spriteBatch.end();
-	
+
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 

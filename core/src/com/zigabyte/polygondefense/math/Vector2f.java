@@ -57,4 +57,8 @@ public class Vector2f {
 		return new Vector2f(x * dx, y * dy);
 	}
 
+	public float getAngle() {
+		return (float) Math.atan(y / x);
+	}
+
 }

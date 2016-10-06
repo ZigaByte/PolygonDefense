@@ -15,6 +15,10 @@ public class Mob extends Entity {
 	protected Node target;
 	protected int nodeCount = 0;
 
+	protected float rotation;
+
+	public boolean dead = false;
+
 	public Mob(Level level, Vector2f pos) {
 		super(level, pos);
 		p = new Polygon(3, 20);
@@ -22,7 +26,12 @@ public class Mob extends Entity {
 
 	private void move() {
 		Vector2f direction = target.pos.sub(this.pos).normal();
-		pos = pos.add(direction.mul(5));
+		pos = pos.add(direction.mul(2));
+
+		// Calculate the rotation of the mob
+		rotation = direction.getAngle();
+		if (direction.x < 0)
+			rotation += 3.14f;
 	}
 
 	@Override
@@ -31,7 +40,7 @@ public class Mob extends Entity {
 			target = level.getNode(0);
 		}
 
-		if (target.getDistance(pos) < 10) {
+		if (target.getDistance(pos) < 5) {
 			nodeCount++;
 			target = level.getNode(nodeCount);
 
@@ -43,8 +52,8 @@ public class Mob extends Entity {
 
 	@Override
 	public void render(Render render) {
-		render.drawPolygon(p, new Color(0, 0, 0, 0.5f), pos.x + 3, pos.y + 2, 0);
-		render.drawPolygon(p, new Color(1, 1, 1, 1f), pos.x, pos.y);
+		render.drawPolygon(p, new Color(0, 0, 0, 0.5f), pos.x + 3, pos.y + 2, rotation);
+		render.drawPolygon(p, new Color(1, 1, 1, 1f), pos.x, pos.y, rotation);
 	}
 
 }
