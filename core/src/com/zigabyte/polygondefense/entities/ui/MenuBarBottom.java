@@ -1,8 +1,8 @@
 package com.zigabyte.polygondefense.entities.ui;
 
-import com.badlogic.gdx.graphics.Color;
 import com.zigabyte.polygondefense.graphics.Polygon;
 import com.zigabyte.polygondefense.graphics.Render;
+import com.zigabyte.polygondefense.graphics.SpriteLoader;
 import com.zigabyte.polygondefense.level.Level;
 
 public class MenuBarBottom extends UIElement {
@@ -33,6 +33,8 @@ public class MenuBarBottom extends UIElement {
 	@Override
 	public void render(Render render) {
 		int xo = (1600 - w) / 2;
-		render.drawPolygon(background, new Color(0.2f, 0.2f, 0.2f, 1f), xo, 0);
+		//render.drawPolygon(background, new Color(0.2f, 0.2f, 0.2f, 1f), xo, 0);
+
+		render.drawTexture(SpriteLoader.getTest(), xo, 0, w, h);
 	}
 }

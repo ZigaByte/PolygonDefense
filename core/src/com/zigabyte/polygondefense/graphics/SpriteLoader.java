@@ -4,14 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class SpriteLoader {
 
-	// Array of sprites generated from the sprites.png file
-	// sprites[ROW][COLUMN]
-	//private static TextureRegion[][] sprites;
+	public static final String FOLDER = "textures/";
+
 	private static Texture test;
 
 	public static void loadSprites() {
-		test = new Texture("badlogic.jpg");
-		// sprites = TextureRegion.split(test, 32, 32);
+		test = new Texture(FOLDER + "menu_bottom.png");
 	}
 
 	public static Texture getTest() {

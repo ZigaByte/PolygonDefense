@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -23,6 +24,8 @@ public class Render {
 		shapeRenderer = new ShapeRenderer();
 
 		camera = new OrthographicCamera(WIDTH, HEIGHT);
+		camera.translate(WIDTH / 2, HEIGHT / 2, 0);
+		camera.update();
 	}
 
 	public void drawPolygon(Polygon p) {
@@ -48,6 +51,8 @@ public class Render {
 	 * 
 	 */
 	public void drawPolygon(Polygon p, Color color, float x, float y, float rotation) {
+		beginRenderer(shapeRenderer);
+
 		rotation = rotation * 180 / 3.14f; // Convert to degrees
 
 		shapeRenderer.setColor(color);
@@ -70,13 +75,39 @@ public class Render {
 	}
 
 	public void drawLine(float x0, float y0, float x1, float y1) {
+		beginRenderer(shapeRenderer);
+
 		shapeRenderer.setColor(0, 0, 0, 1);
 		shapeRenderer.line(x0, y0, x1, y1);
 	}
 
+	public void drawTexture(Texture texture, float x, float y, float w, float h) {
+		beginRenderer(spriteBatch);
+		spriteBatch.draw(texture, x, y, w, h);
+	}
+
+	public void beginRenderer(Object renderer) {
+		// Start the renderer that was passed if isn't started.
+		// End others
+
+		if (renderer instanceof SpriteBatch) {
+			if (!((SpriteBatch) renderer).isDrawing()) {
+				endAllRenderers();
+				((SpriteBatch) renderer).begin();
+			}
+		}
+
+		if (renderer instanceof ShapeRenderer) {
+			if (!((ShapeRenderer) renderer).isDrawing()) {
+				endAllRenderers();
+				((ShapeRenderer) renderer).begin(ShapeType.Filled);
+			}
+		}
+	}
+
 	public void begin() {
-		shapeRenderer.begin(ShapeType.Filled);
-		spriteBatch.begin();
+		//shapeRenderer.begin(ShapeType.Filled);
+		//spriteBatch.begin();
 
 		spriteBatch.setProjectionMatrix(camera.combined);
 		shapeRenderer.setProjectionMatrix(camera.combined);
@@ -88,17 +119,18 @@ public class Render {
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+	}
 
-		// Set the origin of the render in the bottom left corner
-		shapeRenderer.translate(-WIDTH / 2, -HEIGHT / 2, 0);
+	private void endAllRenderers() {
+		if (shapeRenderer.isDrawing())
+			shapeRenderer.end();
+
+		if (spriteBatch.isDrawing())
+			spriteBatch.end();
 	}
 
 	public void end() {
-		// Reset the position of the render origin
-		shapeRenderer.translate(WIDTH / 2, HEIGHT / 2, 0);
-
-		shapeRenderer.end();
-		spriteBatch.end();
+		endAllRenderers();
 
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
