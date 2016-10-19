@@ -2,6 +2,7 @@ package com.zigabyte.polygondefense.level;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.utils.Queue;
 import com.zigabyte.polygondefense.Game;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
@@ -33,16 +34,17 @@ public class Level {
 	public final float LEVEL_WIDTH;
 	public final float LEVEL_HEIGHT;
 
-	public final int X_PADDING_LEFT = 50;
-	public final int X_PADDING_RIGHT = 50;
-	public final int Y_PADDING_BOTTOM = 200;
-	public final int Y_PADDING_TOP = 200;
+	public final int X_PADDING_LEFT = 0;
+	public final int X_PADDING_RIGHT = 0;
+	public final int Y_PADDING_BOTTOM = 0;
+	public final int Y_PADDING_TOP = 0;
 
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<UIElement> ui = new ArrayList<UIElement>();
 	private ArrayList<Node> nodes = new ArrayList<Node>();
 
 	private ArrayList<Tile> tiles = new ArrayList<Tile>();
+	public Tile origin;
 
 	public Level(Game game) {
 		this.game = game;
@@ -90,6 +92,9 @@ public class Level {
 		nodes.add(getTile(2, 2).node);
 		nodes.add(getTile(5, 5).node);
 		nodes.add(new Node(this, new Vector2f(1000000, 5)));
+
+		origin = getTile(0, 4);
+		calculateCosts(origin);
 	}
 
 	private void updateEntities() {
@@ -162,7 +167,6 @@ public class Level {
 		for (int i = 0; i < TILES_X; i++) {
 			if (i < TILES_Y)
 				render.drawLine(X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM, LEVEL_WIDTH + X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM);
-			float t = (LEVEL_WIDTH - X_PADDING_RIGHT + X_PADDING_LEFT);
 			render.drawLine(TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM, TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM + LEVEL_HEIGHT);
 		}
 
@@ -178,6 +182,52 @@ public class Level {
 
 	public void removeEntity(Entity e) {
 		entities.remove(e);
+	}
+
+	/**
+	 * Calculate the costs of tiles
+	 * @param origin - the tile with the lowest cost (should be the spawn point)
+	 * */
+	public void calculateCosts(Tile first) {
+		// First reset the cost of all the tiles
+		for (Tile t : tiles)
+			t.cost = 500;
+
+		Queue<Tile> queue = new Queue<Tile>();
+		queue.addFirst(first);
+		int cost = 0;
+		first.cost = cost;
+		
+		while (queue.size > 0) {
+			Tile current = queue.get(0);
+			queue.removeFirst();
+						
+			cost = current.cost + 1;
+
+			for (int dx = -1; dx <= 1; dx++) {
+				for (int dy = -1; dy <= 1; dy++) {
+
+					if (dx != dy && dx != -dy) {
+
+						int x = current.getXI() + dx;
+						int y = current.getYI() + dy;
+						if (x >= 0 && y >= 0 && x < TILES_X && y < TILES_Y) {
+							Tile t = getTile(x, y);
+
+							if (t.state != Tile.State.FREE)
+								continue;
+
+							if (t.cost > cost) {
+								t.cost = cost;
+								queue.addLast(t);
+							}
+						}
+
+					}
+
+				}
+			}
+		}
 	}
 
 	/**

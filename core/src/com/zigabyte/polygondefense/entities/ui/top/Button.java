@@ -19,11 +19,13 @@ public abstract class Button extends UIElement {
 	public Button(Level level) {
 		super(level);
 
-		float v[] = { 0, 0, 300, 0, 300, 120, 0, 120 };
+		int width = 288;
+		int height = 100;
+		float v[] = { 0, 0, width, 0, width, height, 0, height };
 		background = new Polygon(v);
 		color = Color.BLACK;
 
-		rect = new Rectangle(new Vector2f(100, 780), new Vector2f(100 + 300, 780 + 120));
+		rect = new Rectangle(new Vector2f(100, 900 -height), new Vector2f(100 + width, 900));
 	}
 
 	public abstract void pressed();
@@ -31,7 +33,7 @@ public abstract class Button extends UIElement {
 	@Override
 	public boolean processInput(Vector2f input) {
 		boolean process = rect.isInside(input);
-		
+
 		if (process) {
 			level.controller.state = State.ACTIVE;
 			pressed();
@@ -47,7 +49,7 @@ public abstract class Button extends UIElement {
 
 	@Override
 	public void render(Render render) {
-		render.drawPolygon(background, color, 100 + offset, 780);
+		render.drawPolygon(background, color, 100 + offset, 800);
 	}
 
 }

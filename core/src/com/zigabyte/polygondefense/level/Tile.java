@@ -1,5 +1,6 @@
 package com.zigabyte.polygondefense.level;
 
+import com.badlogic.gdx.graphics.Color;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
 import com.zigabyte.polygondefense.graphics.Render;
@@ -25,14 +26,20 @@ public class Tile extends Entity {
 
 	public State state;
 
+	public Vector2i posI;
+	public int cost;
+
 	public Tile(Level level, Vector2i pos) {
 		super(level, pos.toVector2f());
+		this.posI = pos;
 
 		this.level = level;
 
 		state = State.FREE;
 
 		node = new Node(level, new Vector2f(getCenter()));
+
+		cost = 500;
 	}
 
 	public Vector2f getCenter() {
@@ -78,8 +85,9 @@ public class Tile extends Entity {
 
 				switch (level.controller.mode) {
 				case WALL:
-					if (state == State.FREE)
+					if (state == State.FREE) {
 						render.shapeRenderer.setColor(0, 1, 0, 0.2f);
+					}
 					break;
 				default:
 					if (state == State.WALL)
@@ -90,6 +98,18 @@ public class Tile extends Entity {
 			renderRect(render);
 			//render.shapeRenderer.rect(center.x - width / 2, center.y - height / 2, width, height);
 		}
+		// Debug only below - path finding
+		/*else {
+			render.shapeRenderer.setColor(new Color((cost * 14)));
+			renderRect(render);
+		}*/
 	}
 
+	public int getXI() {
+		return posI.x;
+	}
+
+	public int getYI() {
+		return posI.y;
+	}
 }

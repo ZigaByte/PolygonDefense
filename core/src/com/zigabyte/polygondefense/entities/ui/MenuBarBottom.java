@@ -5,19 +5,20 @@ import com.zigabyte.polygondefense.graphics.Polygon;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.level.Level;
 
-public class MenuBarBottom extends UIElement{
+public class MenuBarBottom extends UIElement {
 	private Polygon background;
-	private Polygon useless;
+
+	// Size variables
+	private int dx = 50;
+	private int w = 900;
+	private int h = 70;
 
 	public MenuBarBottom(Level level) {
 		super(level);
 
-		float v[] = { 1600, 0, 1600, 150, 1250, 150, 1200, 100, 0, 100, 0, 0 };
-
-		float v2[] = { -100, 0, 1170, 0, 1200, 30, -100, 30 };
+		float v[] = { 0, 0, w, 0, w - dx, h, dx, h };
 
 		background = new Polygon(v);
-		useless = new Polygon(v2);
 	}
 
 	public boolean processInput() {
@@ -31,7 +32,7 @@ public class MenuBarBottom extends UIElement{
 
 	@Override
 	public void render(Render render) {
-		render.drawPolygon(background, new Color(0.2f, 0.2f, 0.2f, 1f), 0, 0);
-		render.drawPolygon(useless, new Color(0.5f, 0.5f, 0.5f, 1f), 20, 115);
+		int xo = (1600 - w) / 2;
+		render.drawPolygon(background, new Color(0.2f, 0.2f, 0.2f, 1f), xo, 0);
 	}
 }

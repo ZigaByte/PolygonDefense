@@ -26,7 +26,6 @@ public class Controller {
 	public Controller(Level level) {
 		this.level = level;
 		state = State.IDLE;
-
 	}
 
 	private void addWall(Tile tile) {
@@ -35,6 +34,9 @@ public class Controller {
 
 		if (tile.state == Tile.State.FREE) {
 			tile.state = Tile.State.WALL;
+
+			// Update the path finding costs
+			level.calculateCosts(level.origin);
 		}
 	}
 
