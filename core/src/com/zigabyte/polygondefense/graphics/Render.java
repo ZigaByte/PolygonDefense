@@ -18,7 +18,7 @@ public class Render {
 	public SpriteBatch spriteBatch;
 
 	private OrthographicCamera camera;
-
+	
 	public Render() {
 		spriteBatch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
@@ -82,6 +82,10 @@ public class Render {
 	}
 
 	public void drawTexture(Texture texture, float x, float y, float w, float h) {
+		drawTexture(texture, x, y, w, h, 0);
+	}
+
+	public void drawTexture(Texture texture, float x, float y, float w, float h, float rotation) {
 		beginRenderer(spriteBatch);
 		spriteBatch.draw(texture, x, y, w, h);
 	}
@@ -89,7 +93,6 @@ public class Render {
 	public void beginRenderer(Object renderer) {
 		// Start the renderer that was passed if isn't started.
 		// End others
-
 		if (renderer instanceof SpriteBatch) {
 			if (!((SpriteBatch) renderer).isDrawing()) {
 				endAllRenderers();

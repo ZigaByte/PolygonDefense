@@ -8,7 +8,7 @@ public class TowerPentagon extends Tower{
 
 	public TowerPentagon(Level level, Vector2f pos) {
 		super(level, pos);
-		polygon = new Polygon(5, 20);
+		polygon = new Polygon(5, SIZE);
 
 	}
 

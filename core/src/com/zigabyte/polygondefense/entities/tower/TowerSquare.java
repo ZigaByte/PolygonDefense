@@ -8,7 +8,7 @@ public class TowerSquare extends Tower {
 
 	public TowerSquare(Level level, Vector2f pos) {
 		super(level, pos);
-		polygon = new Polygon(4, 20);
+		polygon = new Polygon(4, SIZE);
 
 	}
 

@@ -9,6 +9,7 @@ public abstract class Entity {
 	protected Level level;
 
 	public Vector2f pos;
+	protected float rotation;
 
 	public Entity(Level level) {
 		this(level, new Vector2f(0, 0));

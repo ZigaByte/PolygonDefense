@@ -1,12 +1,14 @@
 package com.zigabyte.polygondefense.level;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.badlogic.gdx.utils.Queue;
 import com.zigabyte.polygondefense.Game;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
 import com.zigabyte.polygondefense.entities.mobs.Mob;
+import com.zigabyte.polygondefense.entities.tower.TowerTriangle;
 import com.zigabyte.polygondefense.entities.ui.MenuBarBottom;
 import com.zigabyte.polygondefense.entities.ui.UIElement;
 import com.zigabyte.polygondefense.entities.ui.top.ButtonHexagon;
@@ -52,7 +54,12 @@ public class Level {
 		controller = new Controller(this);
 
 		// addEntity(new Tower(this, new Vector2f(200, 200)));
-		addEntity(new Mob(this, new Vector2f(-100, 100)));
+		Random r = new Random();
+		for (int i = 0; i < 20; i++) {
+			addEntity(new Mob(this, new Vector2f(100 + r.nextInt(500), 100 + r.nextInt(500))));
+		}
+
+		addEntity(new TowerTriangle(this, new Vector2f(350, 650)));
 
 		ui.add(new MenuBarBottom(this));
 		ui.add(new ButtonTriangle(this));
@@ -197,11 +204,11 @@ public class Level {
 		queue.addFirst(first);
 		int cost = 0;
 		first.cost = cost;
-		
+
 		while (queue.size > 0) {
 			Tile current = queue.get(0);
 			queue.removeFirst();
-						
+
 			cost = current.cost + 1;
 
 			for (int dx = -1; dx <= 1; dx++) {
@@ -268,6 +275,15 @@ public class Level {
 		ArrayList<Mob> mobs = new ArrayList<Mob>();
 		for (Entity e : entities) {
 			if (e instanceof Mob)
+				mobs.add((Mob) e);
+		}
+		return mobs;
+	}
+
+	public ArrayList<Mob> getMobsInRange(Vector2f point, float range) {
+		ArrayList<Mob> mobs = new ArrayList<Mob>();
+		for (Entity e : entities) {
+			if (e instanceof Mob && e.pos.distanceSquared(point) < range * range)
 				mobs.add((Mob) e);
 		}
 		return mobs;

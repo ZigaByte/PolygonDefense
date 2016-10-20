@@ -8,7 +8,7 @@ public class TowerTriangle extends Tower {
 
 	public TowerTriangle(Level level, Vector2f pos) {
 		super(level, pos);
-		polygon = new Polygon(3, 20);
+		polygon = new Polygon(3, SIZE);
 	}
 
 }

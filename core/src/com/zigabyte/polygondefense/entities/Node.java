@@ -19,6 +19,7 @@ public class Node extends Entity {
 	@Override
 	public void render(Render render) {
 		render.shapeRenderer.setColor(Color.RED);
+		render.beginRenderer(render.shapeRenderer);
 		render.shapeRenderer.circle(pos.x, pos.y, 3);
 	}
 

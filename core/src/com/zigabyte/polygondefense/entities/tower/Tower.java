@@ -2,9 +2,11 @@ package com.zigabyte.polygondefense.entities.tower;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.mobs.Mob;
+import com.zigabyte.polygondefense.entities.projectile.Projectile;
 import com.zigabyte.polygondefense.graphics.Polygon;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.level.Level;
@@ -12,13 +14,22 @@ import com.zigabyte.polygondefense.math.Vector2f;
 
 public abstract class Tower extends Entity {
 
+	protected final int SIZE = 40;
+	
 	protected Polygon polygon;
 	protected Color color;
 
 	protected Mob target;
 
-	protected float rotation;
+	// Variables that define the traits of the tower
+	private float damage = 1;
+	private float attackSpeed = 1; // Time between shots.
+	private float range = 500;
+	private boolean attackAll = false;
+
+	// Variables regarding the state of the tower
 	protected boolean active = false;
+	private float shootTimer = 0;
 
 	public Tower(Level level, Vector2f pos) {
 		super(level, pos);
@@ -27,7 +38,6 @@ public abstract class Tower extends Entity {
 	}
 
 	private void findTarget() {
-
 		ArrayList<Mob> mobs = level.getMobs();
 		// For now TODO
 		if (!mobs.isEmpty()) {
@@ -42,17 +52,14 @@ public abstract class Tower extends Entity {
 	private void updateTarget() {
 		if (target == null) {
 			findTarget();
-		} else if (target.dead) {
-			findTarget();
 		}
+		if (target != null)
+			if (target.dead) {
+				findTarget();
+			}
 	}
 
-	@Override
-	public void update() {
-		rotation += 0.03f;
-
-		updateTarget();
-
+	private void updatePosition() {
 		if (active) {
 			Vector2f direction = pos.sub(target.pos).normal();
 			rotation = direction.getAngle();
@@ -60,8 +67,42 @@ public abstract class Tower extends Entity {
 			if (pos.x > target.pos.x) {
 				rotation += 3.14f;
 			}
-
 		}
+	}
+
+	private void shootAt(Mob m) {
+		level.addEntity(new Projectile(level, this.pos, target, damage));
+	}
+
+	private void updateShooting() {
+		if (shootTimer >= 0) {
+			shootTimer -= Gdx.graphics.getDeltaTime();
+		}
+
+		if (active) {
+			if (shootTimer < 0) {
+				// Reset the timer and shoot at the target
+				shootTimer = attackSpeed;
+
+				if (attackAll) {
+					ArrayList<Mob> mobsInRange = level.getMobsInRange(pos, range);
+					for (Mob b : mobsInRange) {
+						shootAt(b);
+					}
+				} else {
+					shootAt(target);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void update() {
+		updateTarget();
+
+		updatePosition();
+
+		updateShooting();
 	}
 
 	@Override

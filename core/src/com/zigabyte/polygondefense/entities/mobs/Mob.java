@@ -1,8 +1,11 @@
 package com.zigabyte.polygondefense.entities.mobs;
 
+import java.util.Random;
+
 import com.badlogic.gdx.graphics.Color;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
+import com.zigabyte.polygondefense.entities.projectile.Projectile;
 import com.zigabyte.polygondefense.graphics.Polygon;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.level.Level;
@@ -15,13 +18,16 @@ public class Mob extends Entity {
 	protected Node target;
 	protected int nodeCount = 0;
 
-	protected float rotation;
-
 	public boolean dead = false;
 
 	public Mob(Level level, Vector2f pos) {
 		super(level, pos);
 		p = new Polygon(3, 20);
+	}
+
+	public void hit(Projectile p) {
+		dead = true;
+		level.removeEntity(this);
 	}
 
 	private void move() {
@@ -42,8 +48,9 @@ public class Mob extends Entity {
 
 		if (target.getDistance(pos) < 5) {
 			nodeCount++;
-			target = level.getNode(nodeCount);
-
+			//target = level.getNode(nodeCount);
+			Random r = new Random();
+			target = level.getNode(r.nextInt(5));
 			// TODO, THIS WILL CRASH , array out of bounds
 		}
 

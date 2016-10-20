@@ -21,7 +21,19 @@ public class Vector2f {
 	}
 
 	public float length() {
-		return (float) Math.sqrt(x * x + y * y);
+		return (float) Math.sqrt(lengthSquared());
+	}
+
+	public float lengthSquared() {
+		return x * x + y * y;
+	}
+
+	public float distance(Vector2f v2) {
+		return v2.sub(this).length();
+	}
+
+	public float distanceSquared(Vector2f v2) {
+		return v2.sub(this).lengthSquared();
 	}
 
 	public Vector2f normal() {
