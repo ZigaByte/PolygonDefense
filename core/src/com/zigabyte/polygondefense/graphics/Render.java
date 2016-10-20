@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Matrix4;
 
 public class Render {
 
@@ -18,7 +19,9 @@ public class Render {
 	public SpriteBatch spriteBatch;
 
 	private OrthographicCamera camera;
-	
+
+	private Matrix4 initial;
+
 	public Render() {
 		spriteBatch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
@@ -26,6 +29,8 @@ public class Render {
 		camera = new OrthographicCamera(WIDTH, HEIGHT);
 		camera.translate(WIDTH / 2, HEIGHT / 2, 0);
 		camera.update();
+
+		initial = new Matrix4(camera.combined);
 	}
 
 	public void drawPolygon(Polygon p) {
@@ -109,11 +114,9 @@ public class Render {
 	}
 
 	public void begin() {
-		//shapeRenderer.begin(ShapeType.Filled);
-		//spriteBatch.begin();
-
 		spriteBatch.setProjectionMatrix(camera.combined);
 		shapeRenderer.setProjectionMatrix(camera.combined);
+		shapeRenderer.identity(); // This stops the rotation problem
 
 		// Draw the background
 		float r = 220 / 255f;
