@@ -55,7 +55,7 @@ public class Level {
 
 		// addEntity(new Tower(this, new Vector2f(200, 200)));
 		Random r = new Random();
-		for (int i = 0; i < 500; i++) {
+		for (int i = 0; i < 50; i++) {
 			addEntity(new Mob(this, new Vector2f(100 + r.nextInt(500), 100 + r.nextInt(500))));
 		}
 
