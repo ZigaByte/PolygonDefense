@@ -36,5 +36,7 @@ public class MenuBarBottom extends UIElement {
 		//render.drawPolygon(background, new Color(0.2f, 0.2f, 0.2f, 1f), xo, 0);
 
 		render.drawTexture(SpriteLoader.getTest(), xo, 0, w, h);
+		
+		render.drawText();
 	}
 }

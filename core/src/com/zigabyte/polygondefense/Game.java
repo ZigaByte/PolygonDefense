@@ -63,7 +63,6 @@ public class Game extends ApplicationAdapter implements Runnable {
 				ups = u;
 				u = 0;
 				timer += 1000;
-				System.out.println(ups);
 			}
 		}
 	}
@@ -87,7 +86,7 @@ public class Game extends ApplicationAdapter implements Runnable {
 	@Override
 	public void dispose() {
 		render.dispose();
-		
+
 		thread.stopThread();
 	}
 }

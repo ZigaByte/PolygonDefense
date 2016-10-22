@@ -1,11 +1,15 @@
 package com.zigabyte.polygondefense.entities;
 
+import java.util.Random;
+
 import com.badlogic.gdx.Gdx;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.level.Level;
 import com.zigabyte.polygondefense.math.Vector2f;
 
 public abstract class Entity {
+	
+	protected static Random random = new Random();
 
 	protected Level level;
 

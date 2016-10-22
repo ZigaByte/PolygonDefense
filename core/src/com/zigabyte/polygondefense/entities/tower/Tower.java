@@ -15,7 +15,7 @@ import com.zigabyte.polygondefense.math.Vector2f;
 public abstract class Tower extends Entity {
 
 	protected final int SIZE = 40;
-	
+
 	protected Polygon polygon;
 	protected Color color;
 
@@ -38,10 +38,10 @@ public abstract class Tower extends Entity {
 	}
 
 	private void findTarget() {
-		ArrayList<Mob> mobs = level.getMobs();
+		ArrayList<Mob> mobs = level.getMobsInRange(pos, range);
 		// For now TODO
 		if (!mobs.isEmpty()) {
-			target = mobs.get(0);
+			target = mobs.get(random.nextInt(mobs.size()));
 
 			active = true;
 		} else {
