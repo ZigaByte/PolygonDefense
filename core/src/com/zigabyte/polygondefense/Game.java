@@ -76,8 +76,6 @@ public class Game extends ApplicationAdapter implements Runnable {
 
 		render.begin();
 
-		// update();
-
 		level.render(render);
 
 		render.end();

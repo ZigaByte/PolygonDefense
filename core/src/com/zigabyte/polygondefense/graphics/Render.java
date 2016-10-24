@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.scenes.scene2d.ui.TextTooltip;
 
 public class Render {
 
@@ -97,7 +98,10 @@ public class Render {
 
 	public void drawTexture(Texture texture, float x, float y, float w, float h, float rotation) {
 		beginRenderer(spriteBatch);
-		spriteBatch.draw(texture, x, y, w, h);
+
+		// The draw method requires rotation in degrees.
+		rotation = rotation * 180f / 3.14f;
+		spriteBatch.draw(texture, x, y, w / 2, h / 2, w, h, 1, 1, rotation, 0, 0, texture.getWidth(), texture.getHeight(), false, false);
 	}
 
 	public void beginRenderer(Object renderer) {

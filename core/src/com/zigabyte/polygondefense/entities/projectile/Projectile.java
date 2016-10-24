@@ -45,6 +45,7 @@ public class Projectile extends Entity {
 		rotation = direction.getAngle();
 		if (direction.x < 0)
 			rotation += 3.14f;
+		rotation += 3.14f / 2;
 
 		if (distance < 50) {
 			hit();
@@ -61,8 +62,7 @@ public class Projectile extends Entity {
 
 	@Override
 	public void render(Render render) {
-		//render.drawLine(pos.x - 5, pos.y - 5, pos.x + 5, pos.y + 5);
-		render.drawTexture(SpriteLoader.getTest(), pos.x - 5, pos.y - 5, 20, 30);
+		render.drawTexture(SpriteLoader.getTest(), pos.x - 5, pos.y - 5, 20, 30, rotation);
 	}
 
 }
