@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -17,15 +18,24 @@ public class Render {
 	public ShapeRenderer shapeRenderer;
 	public SpriteBatch spriteBatch;
 
+	public BitmapFont font;
+
 	private OrthographicCamera camera;
 
 	public Render() {
 		spriteBatch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
 
+		font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
+
 		camera = new OrthographicCamera(WIDTH, HEIGHT);
 		camera.translate(WIDTH / 2, HEIGHT / 2, 0);
 		camera.update();
+	}
+
+	public void drawText() {
+		beginRenderer(spriteBatch);
+		font.draw(spriteBatch, "Hello Sir.", 300, 300);
 	}
 
 	public void drawPolygon(Polygon p) {
