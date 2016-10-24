@@ -12,7 +12,7 @@ public class Projectile extends Entity {
 	protected Mob target;
 
 	private float speed;
-	private float damage;
+	public float damage;
 
 	public Projectile(Level level, Vector2f pos, Mob target, float damage) {
 		super(level, pos);

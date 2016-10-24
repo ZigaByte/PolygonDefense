@@ -1,6 +1,8 @@
 package com.zigabyte.polygondefense.entities.tower;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -15,14 +17,14 @@ import com.zigabyte.polygondefense.math.Vector2f;
 public abstract class Tower extends Entity {
 
 	protected final int SIZE = 40;
-	
+
 	protected Polygon polygon;
 	protected Color color;
 
 	protected Mob target;
 
 	// Variables that define the traits of the tower
-	private float damage = 1;
+	private float damage = 15;
 	private float attackSpeed = 1; // Time between shots.
 	private float range = 500;
 	private boolean attackAll = false;
@@ -38,11 +40,19 @@ public abstract class Tower extends Entity {
 	}
 
 	private void findTarget() {
-		ArrayList<Mob> mobs = level.getMobs();
+		ArrayList<Mob> mobs = level.getMobsInRange(pos, range);
 		// For now TODO
 		if (!mobs.isEmpty()) {
-			target = mobs.get(0);
+			// Sort the array by distance
+			Collections.sort(mobs, new Comparator<Mob>() {
+				public int compare(Mob m1, Mob m2) {
+					float d1 = m1.pos.distanceSquared(pos);
+					float d2 = m2.pos.distanceSquared(pos);
+					return Double.compare(d1, d2);
+				};
+			});
 
+			target = mobs.get(0);
 			active = true;
 		} else {
 			active = false;

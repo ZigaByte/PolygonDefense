@@ -14,20 +14,47 @@ import com.zigabyte.polygondefense.math.Vector2f;
 public class Mob extends Entity {
 
 	protected Polygon p;
+	protected Color color;
 
 	protected Node target;
 	protected int nodeCount = 0;
+
+	protected final float MAX_HEALTH;
+	protected float health;
 
 	public boolean dead = false;
 
 	public Mob(Level level, Vector2f pos) {
 		super(level, pos);
 		p = new Polygon(3, 20);
+
+		MAX_HEALTH = 50;
+		health = MAX_HEALTH;
+
+		color = new Color();
+		updateColor();
+	}
+
+	/**
+	 * Updates the color of the mob. Green is full hp, red is low hp
+	 * */
+	private void updateColor() {
+		float ratio = health / MAX_HEALTH;
+		color.set(ratio, 1 - ratio, 0, 1);
 	}
 
 	public void hit(Projectile p) {
-		dead = true;
-		level.removeEntity(this);
+		health -= p.damage;
+
+		if (health < 0) {
+			dead = true;
+			level.removeEntity(this);
+
+			// TODO Add money and spawn a text particle
+
+		} else {
+			updateColor();
+		}
 	}
 
 	private void move() {
@@ -60,7 +87,7 @@ public class Mob extends Entity {
 	@Override
 	public void render(Render render) {
 		render.drawPolygon(p, new Color(0, 0, 0, 0.5f), pos.x + 3, pos.y + 2, rotation);
-		render.drawPolygon(p, new Color(1, 1, 1, 1f), pos.x, pos.y, rotation);
+		render.drawPolygon(p, color, pos.x, pos.y, rotation);
 	}
 
 }

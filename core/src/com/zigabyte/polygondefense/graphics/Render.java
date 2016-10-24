@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Matrix4;
 
 public class Render {
 
@@ -20,8 +19,6 @@ public class Render {
 
 	private OrthographicCamera camera;
 
-	private Matrix4 initial;
-
 	public Render() {
 		spriteBatch = new SpriteBatch();
 		shapeRenderer = new ShapeRenderer();
@@ -29,8 +26,6 @@ public class Render {
 		camera = new OrthographicCamera(WIDTH, HEIGHT);
 		camera.translate(WIDTH / 2, HEIGHT / 2, 0);
 		camera.update();
-
-		initial = new Matrix4(camera.combined);
 	}
 
 	public void drawPolygon(Polygon p) {
