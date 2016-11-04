@@ -28,13 +28,13 @@ public class Level {
 	private Game game;
 	public Controller controller;
 
-	public final float TILE_WIDTH;
-	public final float TILE_HEIGHT;
-	public final int TILES_X;
-	public final int TILES_Y;
+	public float TILE_WIDTH;
+	public float TILE_HEIGHT;
+	public int TILES_X;
+	public int TILES_Y;
 
-	public final float LEVEL_WIDTH;
-	public final float LEVEL_HEIGHT;
+	public float LEVEL_WIDTH;
+	public float LEVEL_HEIGHT;
 
 	public final int X_PADDING_LEFT = 0;
 	public final int X_PADDING_RIGHT = 0;
@@ -45,7 +45,7 @@ public class Level {
 	private ArrayList<UIElement> ui = new ArrayList<UIElement>();
 	private ArrayList<Node> nodes = new ArrayList<Node>();
 
-	private ArrayList<Tile> tiles = new ArrayList<Tile>();
+	public ArrayList<Tile> tiles = new ArrayList<Tile>();
 	public Tile origin;
 
 	public Level(Game game) {
@@ -69,29 +69,14 @@ public class Level {
 		ui.add(new ButtonWall(this));
 
 		/*
-		 * nodes.add(new Tile(new Vector2i(5, 5))); nodes.add(new Tile(new Vector2i(6, 6))); nodes.add(new Tile(new Vector2i(2, 8))); nodes.add(new
-		 * Tile(new Vector2i(7, 3)));
+		 * nodes.add(new Tile(new Vector2i(5, 5))); nodes.add(new Tile(new
+		 * Vector2i(6, 6))); nodes.add(new Tile(new Vector2i(2, 8)));
+		 * nodes.add(new Tile(new Vector2i(7, 3)));
 		 */
 
-		TILES_X = (int) (16 * 1.0f);
-		TILES_Y = (int) (9 * 1.0f);
-
-		LEVEL_WIDTH = Render.WIDTH - (X_PADDING_LEFT + X_PADDING_RIGHT);
-		LEVEL_HEIGHT = Render.HEIGHT - (Y_PADDING_BOTTOM + Y_PADDING_TOP);
-
-		TILE_WIDTH = LEVEL_WIDTH / TILES_X;
-		TILE_HEIGHT = LEVEL_HEIGHT / TILES_Y;
-
-		for (int x = 0; x < TILES_X; x++) {
-			for (int y = 0; y < TILES_Y; y++) {
-				tiles.add(new Tile(this, new Vector2i(x, y)));
-
-				if (y <= 0 || y >= TILES_Y - 1) {
-					getTile(x, y).state = State.BLOCKED;
-				}
-			}
-		}
-
+		LevelLoader loader = new LevelLoader();
+		loader.loadLevel(1, this);
+		
 		nodes.add(getTile(5, 5).node);
 		nodes.add(getTile(4, 4).node);
 		nodes.add(getTile(8, 2).node);
@@ -173,8 +158,10 @@ public class Level {
 		// DEBUG LINES
 		for (int i = 0; i < TILES_X; i++) {
 			if (i < TILES_Y)
-				render.drawLine(X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM, LEVEL_WIDTH + X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM);
-			render.drawLine(TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM, TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM + LEVEL_HEIGHT);
+				render.drawLine(X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM, LEVEL_WIDTH + X_PADDING_LEFT,
+						TILE_HEIGHT * i + Y_PADDING_BOTTOM);
+			render.drawLine(TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM, TILE_WIDTH * i + X_PADDING_LEFT,
+					Y_PADDING_BOTTOM + LEVEL_HEIGHT);
 		}
 
 		renderTiles(render);
@@ -193,8 +180,10 @@ public class Level {
 
 	/**
 	 * Calculate the costs of tiles
-	 * @param origin - the tile with the lowest cost (should be the spawn point)
-	 * */
+	 * 
+	 * @param origin
+	 *            - the tile with the lowest cost (should be the spawn point)
+	 */
 	public void calculateCosts(Tile first) {
 		// First reset the cost of all the tiles
 		for (Tile t : tiles)
@@ -260,7 +249,12 @@ public class Level {
 	 * Gets tile by tile index
 	 */
 	public Tile getTile(int x, int y) {
-		return tiles.get(x * TILES_Y + y);
+		for (Tile t : tiles) {
+			if (t.getXI() == x && t.getYI() == y)
+				return t;
+		}
+
+		return null;
 	}
 
 	public Tile getTile(Vector2i v) {

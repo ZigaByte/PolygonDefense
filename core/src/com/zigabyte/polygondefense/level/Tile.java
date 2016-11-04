@@ -11,11 +11,11 @@ import com.zigabyte.polygondefense.math.Vector2i;
 public class Tile extends Entity {
 
 	/**
-	 * FREE - no wall - enemies can move through.
-	 * WALL - a tower can be placed on top, no entities movement.
-	 * TAKEN - a tile with a wall and a tower. No entities movement allowed.
-	 * BLOCKED - a wall on which a tower cannot be placed.
-	 * */
+	 * FREE - no wall - enemies can move through. WALL - a tower can be placed
+	 * on top, no entities movement. TAKEN - a tile with a wall and a tower. No
+	 * entities movement allowed. BLOCKED - a wall on which a tower cannot be
+	 * placed.
+	 */
 	public enum State {
 		BLOCKED, FREE, WALL, TAKEN;
 	}
@@ -37,14 +37,15 @@ public class Tile extends Entity {
 
 		state = State.FREE;
 
+		// System.out.println(getCenter().x + " " +getCenter().y);
 		node = new Node(level, new Vector2f(getCenter()));
 
 		cost = 500;
 	}
 
 	public Vector2f getCenter() {
-		float x = level.X_PADDING_LEFT + (pos.x * level.TILE_WIDTH + level.TILE_WIDTH / 2);
-		float y = level.Y_PADDING_BOTTOM + (pos.y * level.TILE_HEIGHT + level.TILE_HEIGHT / 2);
+		float x = level.X_PADDING_LEFT + (posI.x * level.TILE_WIDTH + level.TILE_WIDTH / 2);
+		float y = level.Y_PADDING_BOTTOM + (posI.y * level.TILE_HEIGHT + level.TILE_HEIGHT / 2);
 		return new Vector2f(x, y);
 	}
 
@@ -77,8 +78,9 @@ public class Tile extends Entity {
 		if (level.controller.state == Controller.State.ACTIVE) {
 
 			render.shapeRenderer.setColor(1, 0, 0, 0.2f);
-			/*if (state == State.TAKEN || state == State.BLOCKED) {
-			}else*/
+			/*
+			 * if (state == State.TAKEN || state == State.BLOCKED) { }else
+			 */
 			if (state == State.WALL || state == State.FREE) {
 
 				render.shapeRenderer.setColor(1, 0, 0, 0.2f);
@@ -96,13 +98,14 @@ public class Tile extends Entity {
 				}
 			}
 			renderRect(render);
-			//render.shapeRenderer.rect(center.x - width / 2, center.y - height / 2, width, height);
+			// render.shapeRenderer.rect(center.x - width / 2, center.y - height
+			// / 2, width, height);
 		}
 		// Debug only below - path finding
-		/*else {
-			render.shapeRenderer.setColor(new Color((cost * 14)));
-			renderRect(render);
-		}*/
+		/*
+		 * else { render.shapeRenderer.setColor(new Color((cost * 14)));
+		 * renderRect(render); }
+		 */
 	}
 
 	public int getXI() {
