@@ -63,10 +63,12 @@ public abstract class Tower extends Entity {
 		if (target == null) {
 			findTarget();
 		}
-		if (target != null)
-			if (target.dead) {
+		if (target != null) {
+			// Select a new target if the old one is out of range or dead.
+			if (target.dead || target.distance(this) > range) {
 				findTarget();
 			}
+		}
 	}
 
 	private void updatePosition() {

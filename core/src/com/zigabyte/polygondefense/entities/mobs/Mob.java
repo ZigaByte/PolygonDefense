@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
 import com.zigabyte.polygondefense.entities.projectile.Projectile;
+import com.zigabyte.polygondefense.entities.tower.Tower;
 import com.zigabyte.polygondefense.graphics.Polygon;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.level.Level;
@@ -77,7 +78,7 @@ public class Mob extends Entity {
 			nodeCount++;
 			//target = level.getNode(nodeCount);
 			Random r = new Random();
-			target = level.getNode(r.nextInt(5));
+			target = level.getNode(r.nextInt(8));
 			// TODO, THIS WILL CRASH , array out of bounds
 		}
 
@@ -88,6 +89,10 @@ public class Mob extends Entity {
 	public void render(Render render) {
 		render.drawPolygon(p, new Color(0, 0, 0, 0.5f), pos.x + 3, pos.y + 2, rotation);
 		render.drawPolygon(p, color, pos.x, pos.y, rotation);
+	}
+
+	public float distance(Tower tower) {
+		return tower.pos.distance(this.pos);
 	}
 
 }

@@ -83,9 +83,7 @@ public class Level {
 		nodes.add(getTile(8, 2).node);
 		nodes.add(getTile(12, 5).node);
 		nodes.add(getTile(2, 2).node);
-		nodes.add(getTile(5, 5).node);
-		nodes.add(new Node(this, new Vector2f(1000000, 5)));
-		
+		nodes.add(getTile(5, 5).node);		
 
 		start = getTile(0, 7);
 		exit = getTile(15, 1);
