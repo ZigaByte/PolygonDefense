@@ -13,7 +13,6 @@ public class Node extends Entity {
 
 	@Override
 	public void update() {
-
 	}
 
 	@Override

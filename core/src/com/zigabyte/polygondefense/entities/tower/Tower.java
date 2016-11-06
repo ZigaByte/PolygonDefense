@@ -26,7 +26,7 @@ public abstract class Tower extends Entity {
 	// Variables that define the traits of the tower
 	private float damage = 15;
 	private float attackSpeed = 1; // Time between shots.
-	private float range = 1500;
+	private float range = 300;
 	private boolean attackAll = false;
 
 	// Variables regarding the state of the tower
