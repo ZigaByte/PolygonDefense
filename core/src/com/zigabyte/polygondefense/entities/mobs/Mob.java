@@ -1,7 +1,5 @@
 package com.zigabyte.polygondefense.entities.mobs;
 
-import java.util.Random;
-
 import com.badlogic.gdx.graphics.Color;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
@@ -22,6 +20,7 @@ public class Mob extends Entity {
 
 	protected final float MAX_HEALTH;
 	protected float health;
+	protected float movementSpeed = 1;
 
 	public boolean dead = false;
 
@@ -62,7 +61,7 @@ public class Mob extends Entity {
 
 	private void move() {
 		Vector2f direction = node.pos.sub(this.pos).normal();
-		pos = pos.add(direction.mul(2));
+		pos = pos.add(direction.mul(movementSpeed));
 
 		// Calculate the rotation of the mob
 		rotation = direction.getAngle();

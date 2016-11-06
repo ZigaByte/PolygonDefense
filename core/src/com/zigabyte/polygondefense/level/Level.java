@@ -84,6 +84,12 @@ public class Level {
 		}
 	}
 
+	private void updateUI() {
+		for (int i = 0; i < ui.size(); i++) {
+			ui.get(i).update();
+		}
+	}
+
 	/**
 	 * Pass the input to different parts of the game and see if they accept it
 	 */
@@ -113,6 +119,8 @@ public class Level {
 		processInput();
 
 		updateEntities();
+
+		updateUI();
 	}
 
 	private void renderEntities(Render render) {

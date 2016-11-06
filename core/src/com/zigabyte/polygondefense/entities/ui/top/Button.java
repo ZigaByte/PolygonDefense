@@ -1,5 +1,7 @@
 package com.zigabyte.polygondefense.entities.ui.top;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.zigabyte.polygondefense.entities.ui.UIElement;
 import com.zigabyte.polygondefense.graphics.Polygon;
@@ -25,7 +27,7 @@ public abstract class Button extends UIElement {
 		background = new Polygon(v);
 		color = Color.BLACK;
 
-		rect = new Rectangle(new Vector2f(100, 900 -height), new Vector2f(100 + width, 900));
+		rect = new Rectangle(new Vector2f(100, 900 - height), new Vector2f(100 + width, 900));
 	}
 
 	public abstract void pressed();
@@ -38,12 +40,37 @@ public abstract class Button extends UIElement {
 			level.controller.state = State.ACTIVE;
 			pressed();
 		}
-
 		return process;
 	}
 
 	@Override
 	public void update() {
+		// HOTKEYS
+		if (this instanceof ButtonTriangle)
+			if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
+				level.controller.state = State.ACTIVE;
+				pressed();
+			}
+		if (this instanceof ButtonSquare)
+			if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+				level.controller.state = State.ACTIVE;
+				pressed();
+			}
+		if (this instanceof ButtonPentagon)
+			if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+				level.controller.state = State.ACTIVE;
+				pressed();
+			}
+		if (this instanceof ButtonHexagon)
+			if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+				level.controller.state = State.ACTIVE;
+				pressed();
+			}
+		if (this instanceof ButtonWall)
+			if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+				pressed();
+				level.controller.state = State.ACTIVE;
+			}
 
 	}
 
