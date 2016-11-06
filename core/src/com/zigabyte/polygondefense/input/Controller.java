@@ -45,6 +45,8 @@ public class Controller {
 
 			} else {
 				tile.state = Tile.State.FREE;
+				// The costs may have been messed up, calculate again
+				level.calculateCosts();
 			}
 		}
 	}

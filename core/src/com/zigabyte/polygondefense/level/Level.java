@@ -54,12 +54,6 @@ public class Level {
 
 		controller = new Controller(this);
 
-		// addEntity(new Tower(this, new Vector2f(200, 200)));
-		Random r = new Random();
-		for (int i = 0; i < 50; i++) {
-			addEntity(new Mob(this, new Vector2f(100 + r.nextInt(500), 100 + r.nextInt(500))));
-		}
-
 		addEntity(new TowerTriangle(this, new Vector2f(350, 650)));
 
 		ui.add(new MenuBarBottom(this));
@@ -69,28 +63,19 @@ public class Level {
 		ui.add(new ButtonHexagon(this));
 		ui.add(new ButtonWall(this));
 
-		/*
-		 * nodes.add(new Tile(new Vector2i(5, 5))); nodes.add(new Tile(new
-		 * Vector2i(6, 6))); nodes.add(new Tile(new Vector2i(2, 8)));
-		 * nodes.add(new Tile(new Vector2i(7, 3)));
-		 */
-
 		LevelLoader loader = new LevelLoader();
 		loader.loadLevel(1, this);
 
-		nodes.add(getTile(5, 5).node);
-		nodes.add(getTile(4, 4).node);
-		nodes.add(getTile(8, 2).node);
-		nodes.add(getTile(12, 5).node);
-		nodes.add(getTile(2, 2).node);
-		nodes.add(getTile(5, 5).node);		
-
 		start = getTile(0, 7);
 		exit = getTile(15, 1);
-		nodes.add(start.node);
-		nodes.add(exit.node);
 
 		calculateCosts();
+
+		// addEntity(new Tower(this, new Vector2f(200, 200)));
+		for (int i = 0; i < 50; i++) {
+			addEntity(new Mob(this, new Vector2f(start.pos.x - 100, start.pos.y)));
+		}
+
 	}
 
 	private void updateEntities() {
@@ -190,6 +175,7 @@ public class Level {
 	 */
 	public boolean calculateCosts() {
 		// First reset the cost of all the tiles
+		nodes.clear();
 		for (Tile t : tiles)
 			t.cost = 500;
 
@@ -203,6 +189,7 @@ public class Level {
 			queue.removeFirst();
 
 			cost = current.cost + 1;
+			nodes.add(new Node(this, current.pos));
 
 			for (int dx = -1; dx <= 1; dx++) {
 				for (int dy = -1; dy <= 1; dy++) {
@@ -220,6 +207,9 @@ public class Level {
 							if (t.cost > cost) {
 								t.cost = cost;
 								queue.addLast(t);
+
+								// Current node is the next one for all the ones with cost + 1
+								t.node.setNext(current.node);
 							}
 						}
 					}

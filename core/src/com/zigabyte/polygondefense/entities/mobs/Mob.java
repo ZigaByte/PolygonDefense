@@ -17,7 +17,7 @@ public class Mob extends Entity {
 	protected Polygon p;
 	protected Color color;
 
-	protected Node target;
+	protected Node node;
 	protected int nodeCount = 0;
 
 	protected final float MAX_HEALTH;
@@ -34,6 +34,8 @@ public class Mob extends Entity {
 
 		color = new Color();
 		updateColor();
+
+		node = level.start.node;
 	}
 
 	/**
@@ -59,7 +61,7 @@ public class Mob extends Entity {
 	}
 
 	private void move() {
-		Vector2f direction = target.pos.sub(this.pos).normal();
+		Vector2f direction = node.pos.sub(this.pos).normal();
 		pos = pos.add(direction.mul(2));
 
 		// Calculate the rotation of the mob
@@ -70,16 +72,12 @@ public class Mob extends Entity {
 
 	@Override
 	public void update() {
-		if (target == null) {
-			target = level.getNode(0);
+		if (node == null) {
+			node = level.getNode(0);
 		}
 
-		if (target.getDistance(pos) < 5) {
-			nodeCount++;
-			//target = level.getNode(nodeCount);
-			Random r = new Random();
-			target = level.getNode(r.nextInt(8));
-			// TODO, THIS WILL CRASH , array out of bounds
+		if (node.getDistance(pos) < 5) {
+			node = node.getNext();
 		}
 
 		move();

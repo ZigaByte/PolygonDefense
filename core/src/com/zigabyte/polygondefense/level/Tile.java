@@ -41,6 +41,8 @@ public class Tile extends Entity {
 		node = new Node(level, new Vector2f(getCenter()));
 
 		cost = 500;
+
+		this.pos = getCenter();
 	}
 
 	public Vector2f getCenter() {

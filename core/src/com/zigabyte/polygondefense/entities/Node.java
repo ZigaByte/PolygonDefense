@@ -7,6 +7,8 @@ import com.zigabyte.polygondefense.math.Vector2f;
 
 public class Node extends Entity {
 
+	private Node next;
+
 	public Node(Level level, Vector2f pos) {
 		super(level, pos);
 	}
@@ -27,6 +29,14 @@ public class Node extends Entity {
 	 */
 	public float getDistance(Vector2f v) {
 		return pos.sub(v).length();
+	}
+
+	public void setNext(Node next) {
+		this.next = next;
+	}
+
+	public Node getNext() {
+		return next;
 	}
 
 }
