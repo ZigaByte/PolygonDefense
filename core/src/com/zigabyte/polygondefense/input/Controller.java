@@ -35,8 +35,17 @@ public class Controller {
 		if (tile.state == Tile.State.FREE) {
 			tile.state = Tile.State.WALL;
 
+			// TODO More verification needed to see if any mobs were blocked off since that is possible.
+
 			// Update the path finding costs
-			level.calculateCosts(level.origin);
+			// See if the newly placed wall was legal
+			if (level.calculateCosts()) {
+
+				// TODO> wall placed, money
+
+			} else {
+				tile.state = Tile.State.FREE;
+			}
 		}
 	}
 

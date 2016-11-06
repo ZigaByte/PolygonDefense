@@ -37,6 +37,7 @@ com_crashlytics_export_strings.xml
 ## Eclipse
 .classpath
 .project
+.recommenders
 .metadata
 **/bin/
 tmp/
@@ -69,4 +70,4 @@ build/
 .DS_Store
 Thumbs.db
 
-.recommenders
+.recommenders/index/http___download_eclipse_org_recommenders_models_neon_/segments.gen

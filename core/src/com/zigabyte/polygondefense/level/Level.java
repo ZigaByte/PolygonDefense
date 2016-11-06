@@ -46,7 +46,8 @@ public class Level {
 	private ArrayList<Node> nodes = new ArrayList<Node>();
 
 	public ArrayList<Tile> tiles = new ArrayList<Tile>();
-	public Tile origin;
+	public Tile start;
+	public Tile exit;
 
 	public Level(Game game) {
 		this.game = game;
@@ -76,7 +77,7 @@ public class Level {
 
 		LevelLoader loader = new LevelLoader();
 		loader.loadLevel(1, this);
-		
+
 		nodes.add(getTile(5, 5).node);
 		nodes.add(getTile(4, 4).node);
 		nodes.add(getTile(8, 2).node);
@@ -84,9 +85,14 @@ public class Level {
 		nodes.add(getTile(2, 2).node);
 		nodes.add(getTile(5, 5).node);
 		nodes.add(new Node(this, new Vector2f(1000000, 5)));
+		
 
-		origin = getTile(0, 4);
-		calculateCosts(origin);
+		start = getTile(0, 7);
+		exit = getTile(15, 1);
+		nodes.add(start.node);
+		nodes.add(exit.node);
+
+		calculateCosts();
 	}
 
 	private void updateEntities() {
@@ -158,10 +164,8 @@ public class Level {
 		// DEBUG LINES
 		for (int i = 0; i < TILES_X; i++) {
 			if (i < TILES_Y)
-				render.drawLine(X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM, LEVEL_WIDTH + X_PADDING_LEFT,
-						TILE_HEIGHT * i + Y_PADDING_BOTTOM);
-			render.drawLine(TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM, TILE_WIDTH * i + X_PADDING_LEFT,
-					Y_PADDING_BOTTOM + LEVEL_HEIGHT);
+				render.drawLine(X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM, LEVEL_WIDTH + X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM);
+			render.drawLine(TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM, TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM + LEVEL_HEIGHT);
 		}
 
 		renderTiles(render);
@@ -183,16 +187,18 @@ public class Level {
 	 * 
 	 * @param origin
 	 *            - the tile with the lowest cost (should be the spawn point)
+	 *            
+	 * @return - returns true if the path from start to exit is still unblocked.
 	 */
-	public void calculateCosts(Tile first) {
+	public boolean calculateCosts() {
 		// First reset the cost of all the tiles
 		for (Tile t : tiles)
 			t.cost = 500;
 
 		Queue<Tile> queue = new Queue<Tile>();
-		queue.addFirst(first);
+		queue.addFirst(exit);
 		int cost = 0;
-		first.cost = cost;
+		exit.cost = 0;
 
 		while (queue.size > 0) {
 			Tile current = queue.get(0);
@@ -218,12 +224,12 @@ public class Level {
 								queue.addLast(t);
 							}
 						}
-
 					}
-
 				}
 			}
 		}
+		// Check if the method was able to calculate the cost for the end tile.
+		return start.cost != 500;
 	}
 
 	/**
