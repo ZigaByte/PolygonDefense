@@ -56,58 +56,52 @@ public class Tile extends Entity {
 
 	}
 
-	public void renderRect(Render render) {
+	public void renderRect(Render render, Color color) {
+		if (color == null)
+			return;
 		Vector2f center = getCenter();
 		float width = level.TILE_WIDTH;
 		float height = level.TILE_HEIGHT;
 
-		render.shapeRenderer.rect(center.x - width / 2, center.y - height / 2, width, height);
+		render.drawRectangle(color, center.x - width / 2, center.y - height / 2, width, height);
 	}
 
 	@Override
 	public void render(Render render) {
 
-		// Render the wall
+		Color color = null;
+		// Render the base
 		if (state == State.WALL || state == State.TAKEN) {
-			render.shapeRenderer.setColor(0, 0, 0, 0.2f);
-			renderRect(render);
+			color = new Color(0, 0, 0, 0.2f);
 		} else if (state == State.BLOCKED) {
-			render.shapeRenderer.setColor(0, 0, 0, 0.75f);
-			renderRect(render);
+			color = new Color(0, 0, 0, 0.2f);
 		}
+		renderRect(render, color);
 
 		// Draw the inactive if the controller is trying to place something
 		if (level.controller.state == Controller.State.ACTIVE) {
 
-			render.shapeRenderer.setColor(1, 0, 0, 0.2f);
+			color = new Color(1, 0, 0, 0.2f);
 			/*
 			 * if (state == State.TAKEN || state == State.BLOCKED) { }else
 			 */
 			if (state == State.WALL || state == State.FREE) {
 
-				render.shapeRenderer.setColor(1, 0, 0, 0.2f);
+				color = new Color(1, 0, 0, 0.2f);
 
 				switch (level.controller.mode) {
 				case WALL:
-					if (state == State.FREE) {
-						render.shapeRenderer.setColor(0, 1, 0, 0.2f);
-					}
+					if (state == State.FREE) 
+						color = new Color(0, 1, 0, 0.1f);
 					break;
 				default:
 					if (state == State.WALL)
-						render.shapeRenderer.setColor(0, 1, 0, 0.2f);
+						color = new Color(0, 1, 0, 0.1f);
 					break;
 				}
 			}
-			renderRect(render);
-			// render.shapeRenderer.rect(center.x - width / 2, center.y - height
-			// / 2, width, height);
 		}
-		// Debug only below - path finding
-		/*
-		 * else { render.shapeRenderer.setColor(new Color((cost * 14)));
-		 * renderRect(render); }
-		 */
+		renderRect(render, color);
 	}
 
 	public int getXI() {

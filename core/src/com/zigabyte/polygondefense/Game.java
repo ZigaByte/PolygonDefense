@@ -70,7 +70,7 @@ public class Game extends ApplicationAdapter implements Runnable {
 	@Override
 	public void render() {
 		// Dirty temporary reset feature
-		if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.R)) {
+		if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.O)) {
 			level = new Level(this);
 		}
 

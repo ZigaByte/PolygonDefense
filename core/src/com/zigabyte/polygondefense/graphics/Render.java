@@ -82,13 +82,27 @@ public class Render {
 
 		shapeRenderer.rotate(0, 0, 1, -rotation);
 		shapeRenderer.translate(-x, -y, 0);
+	}
 
+	public void drawRectangle(Color color, float x, float y, float w, float h) {
+		beginRenderer(shapeRenderer);
+		
+		shapeRenderer.setColor(color);
+
+		float rotation = 0;
+		shapeRenderer.translate(x + w / 2, y + h / 2, 0);
+		shapeRenderer.rotate(0, 0, 1, rotation);
+
+		shapeRenderer.rect(-w / 2, -h / 2, w, h);
+
+		shapeRenderer.rotate(0, 0, 1, -rotation);
+		shapeRenderer.translate(-(x + w / 2), -(y + h / 2), 0);
 	}
 
 	public void drawLine(float x0, float y0, float x1, float y1) {
 		beginRenderer(shapeRenderer);
 
-		shapeRenderer.setColor(0, 0, 0, 1);
+		shapeRenderer.setColor(0, 0, 0, 0.3f);
 		shapeRenderer.line(x0, y0, x1, y1);
 	}
 
