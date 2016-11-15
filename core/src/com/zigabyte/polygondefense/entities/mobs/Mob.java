@@ -1,6 +1,7 @@
 package com.zigabyte.polygondefense.entities.mobs;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
 import com.zigabyte.polygondefense.entities.projectile.Projectile;
@@ -16,11 +17,10 @@ public class Mob extends Entity {
 	protected Color color;
 
 	protected Node node;
-	protected int nodeCount = 0;
 
 	protected final float MAX_HEALTH;
 	protected float health;
-	protected float movementSpeed = 1;
+	protected float movementSpeed = 8;
 
 	public boolean dead = false;
 
@@ -65,7 +65,7 @@ public class Mob extends Entity {
 
 		// Calculate the rotation of the mob
 		rotation = direction.getAngle();
-		if (direction.x < 0)
+		if (direction.x < 10)
 			rotation += 3.14f;
 	}
 
@@ -75,8 +75,16 @@ public class Mob extends Entity {
 			node = level.getNode(0);
 		}
 
+		// If the mob is close enough to the current target node
 		if (node.getDistance(pos) < 5) {
-			node = node.getNext();
+			if (!node.finalNode) {
+				// Get the next node
+				node = node.getNext();
+			} else {
+				// You are through the maze!
+				node = new Node(level, pos.add(200, 0), true);
+				
+			}
 		}
 
 		move();

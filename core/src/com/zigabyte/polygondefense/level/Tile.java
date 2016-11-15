@@ -26,6 +26,7 @@ public class Tile extends Entity {
 
 	public State state;
 
+	// posI is coords in tile array
 	public Vector2i posI;
 	public int cost;
 
@@ -35,14 +36,14 @@ public class Tile extends Entity {
 
 		this.level = level;
 
+		createNode(false);
 		state = State.FREE;
-
-		// System.out.println(getCenter().x + " " +getCenter().y);
-		node = new Node(level, new Vector2f(getCenter()));
-
 		cost = 500;
+		this.pos = getCenter(); // World coordinates
+	}
 
-		this.pos = getCenter();
+	public void createNode(boolean finalNode) {
+		node = new Node(level, new Vector2f(getCenter()), finalNode);
 	}
 
 	public Vector2f getCenter() {
@@ -81,17 +82,14 @@ public class Tile extends Entity {
 		// Draw the inactive if the controller is trying to place something
 		if (level.controller.state == Controller.State.ACTIVE) {
 
-			color = new Color(1, 0, 0, 0.2f);
-			/*
-			 * if (state == State.TAKEN || state == State.BLOCKED) { }else
-			 */
+			//color = new Color(1, 0, 0, 0.2f);
 			if (state == State.WALL || state == State.FREE) {
 
-				color = new Color(1, 0, 0, 0.2f);
+				//color = new Color(1, 0, 0, 0.2f);
 
 				switch (level.controller.mode) {
 				case WALL:
-					if (state == State.FREE) 
+					if (state == State.FREE)
 						color = new Color(0, 1, 0, 0.1f);
 					break;
 				default:

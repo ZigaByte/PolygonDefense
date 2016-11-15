@@ -8,9 +8,15 @@ import com.zigabyte.polygondefense.math.Vector2f;
 public class Node extends Entity {
 
 	private Node next;
+	public final boolean finalNode;
 
 	public Node(Level level, Vector2f pos) {
+		this(level, pos, false);
+	}
+
+	public Node(Level level, Vector2f pos, boolean finalNode) {
 		super(level, pos);
+		this.finalNode = finalNode;
 	}
 
 	@Override

@@ -68,6 +68,7 @@ public class Level {
 
 		start = getTile(0, 7);
 		exit = getTile(15, 1);
+		exit.createNode(true);
 
 		calculateCosts();
 
@@ -129,6 +130,7 @@ public class Level {
 		}
 	}
 
+	@SuppressWarnings("unused") // debug only
 	private void renderNodes(Render render) {
 		for (int i = 0; i < nodes.size(); i++) {
 			nodes.get(i).render(render);
@@ -161,7 +163,7 @@ public class Level {
 
 		renderTiles(render);
 		renderEntities(render);
-		renderNodes(render);
+		//renderNodes(render);
 		renderUI(render);
 	}
 
