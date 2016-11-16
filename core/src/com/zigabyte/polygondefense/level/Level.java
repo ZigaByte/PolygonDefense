@@ -79,15 +79,15 @@ public class Level {
 
 	}
 
-	private void updateEntities() {
+	private void updateEntities(float deltaTime) {
 		for (int i = 0; i < entities.size(); i++) {
-			entities.get(i).update();
+			entities.get(i).update(deltaTime);
 		}
 	}
 
-	private void updateUI() {
+	private void updateUI(float deltaTime) {
 		for (int i = 0; i < ui.size(); i++) {
-			ui.get(i).update();
+			ui.get(i).update(deltaTime);
 		}
 	}
 
@@ -116,12 +116,12 @@ public class Level {
 	/**
 	 * Update all the entities and process input
 	 */
-	public void update() {
+	public void update(float deltaTime) {
 		processInput();
 
-		updateEntities();
+		updateEntities(deltaTime);
 
-		updateUI();
+		updateUI(deltaTime);
 	}
 
 	private void renderEntities(Render render) {

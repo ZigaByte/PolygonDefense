@@ -58,7 +58,7 @@ public class Mob extends Entity {
 		}
 	}
 
-	private void move() {
+	private void move(float deltaTime) {
 		Vector2f direction = node.pos.sub(this.pos).normal();
 		pos = pos.add(direction.mul(movementSpeed));
 
@@ -69,7 +69,7 @@ public class Mob extends Entity {
 	}
 
 	@Override
-	public void update() {
+	public void update(float deltaTime) {
 		if (node == null) {
 			node = level.getNode(0);
 		}
@@ -86,7 +86,7 @@ public class Mob extends Entity {
 			}
 		}
 
-		move();
+		move(deltaTime);
 	}
 
 	@Override

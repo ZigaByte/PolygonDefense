@@ -71,7 +71,7 @@ public abstract class Tower extends Entity {
 		}
 	}
 
-	private void updatePosition() {
+	private void updatePosition(float deltaTimes) {
 		if (active) {
 			Vector2f direction = pos.sub(target.pos).normal();
 			rotation = direction.getAngle();
@@ -86,7 +86,7 @@ public abstract class Tower extends Entity {
 		level.addEntity(new Projectile(level, this.pos, target, damage));
 	}
 
-	private void updateShooting() {
+	private void updateShooting(float deltaTime) {
 		if (shootTimer >= 0) {
 			shootTimer -= Gdx.graphics.getDeltaTime();
 		}
@@ -109,12 +109,12 @@ public abstract class Tower extends Entity {
 	}
 
 	@Override
-	public void update() {
+	public void update(float deltaTime) {
 		updateTarget();
 
-		updatePosition();
+		updatePosition(deltaTime);
 
-		updateShooting();
+		updateShooting(deltaTime);
 	}
 
 	@Override

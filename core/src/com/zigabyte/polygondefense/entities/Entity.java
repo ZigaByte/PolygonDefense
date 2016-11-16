@@ -25,7 +25,7 @@ public abstract class Entity {
 		this.pos = pos;
 	}
 
-	public abstract void update();
+	public abstract void update(float deltaTime);
 
 	public abstract void render(Render render);
 

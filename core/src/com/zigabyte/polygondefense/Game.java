@@ -23,8 +23,8 @@ public class Game extends ApplicationAdapter {
 		level = new Level(this);
 	}
 
-	public void update() {
-		level.update();
+	public void update(float deltaTime) {
+		level.update(deltaTime);
 	}
 
 	@Override
@@ -35,8 +35,9 @@ public class Game extends ApplicationAdapter {
 		}
 
 		render.begin();
-
-		level.update();
+		
+		update((float)Gdx.graphics.getDeltaTime());
+		
 		level.render(render);
 
 		render.end();

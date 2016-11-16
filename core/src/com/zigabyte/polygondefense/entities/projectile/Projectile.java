@@ -34,7 +34,7 @@ public class Projectile extends Entity {
 	/**
 	 * Move the projectile towards the target mob.
 	 * */
-	private void updatePosition() {
+	private void updatePosition(float deltaTime) {
 		Vector2f relative = target.pos.sub(this.pos);
 		float distance = relative.length();
 
@@ -53,8 +53,8 @@ public class Projectile extends Entity {
 	}
 
 	@Override
-	public void update() {
-		updatePosition();
+	public void update(float deltaTime) {
+		updatePosition(deltaTime);
 
 		if (target.dead)
 			level.removeEntity(this);

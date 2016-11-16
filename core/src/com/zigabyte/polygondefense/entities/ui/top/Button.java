@@ -44,7 +44,7 @@ public abstract class Button extends UIElement {
 	}
 
 	@Override
-	public void update() {
+	public void update(float deltaTime) {
 		// HOTKEYS
 		if (this instanceof ButtonTriangle)
 			if (Gdx.input.isKeyJustPressed(Input.Keys.Q)) {
