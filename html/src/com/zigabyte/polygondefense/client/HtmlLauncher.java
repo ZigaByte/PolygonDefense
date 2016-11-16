@@ -9,11 +9,12 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public GwtApplicationConfiguration getConfig () {
-                return new GwtApplicationConfiguration(1600, 900);
+        	float scale = 0.4f;
+            return new GwtApplicationConfiguration((int)(1600 * scale), (int)(900 * scale));
         }
 
         @Override
         public ApplicationListener createApplicationListener () {
-                return new Game();
+            return new Game();
         }
 }

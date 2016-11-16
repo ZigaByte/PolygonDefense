@@ -1,7 +1,6 @@
 package com.zigabyte.polygondefense.entities.mobs;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
 import com.zigabyte.polygondefense.entities.projectile.Projectile;

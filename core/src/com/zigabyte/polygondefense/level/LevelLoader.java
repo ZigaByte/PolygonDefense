@@ -1,7 +1,5 @@
 package com.zigabyte.polygondefense.level;
 
-import java.util.Arrays;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.zigabyte.polygondefense.graphics.Render;
@@ -18,14 +16,18 @@ public class LevelLoader {
 		String text = file.readString();
 
 		// Individual lines of the file
-		String[] lines = text.split("\n");
+		String[] linesOriginal = text.split("\n");
 
 		// Read the width and height of the level in tiles
-		String[] first = lines[0].split("-");
+		String[] first = linesOriginal[0].split("-");
 		int w = Integer.parseInt(first[0].trim());
 		int h = Integer.parseInt(first[1].trim());
 
-		lines = Arrays.copyOfRange(lines, 1, lines.length);
+		//linesOriginal = Arrays.copyOfRange(lines, 1, lines.length);
+		String[] lines = new String[linesOriginal.length - 1];
+		for(int i = 0; i < lines.length; i++){
+			lines[i] = linesOriginal[i+1];
+		}
 
 		int TILES_X = (int) (w * 1.0f);
 		int TILES_Y = (int) (h * 1.0f);
