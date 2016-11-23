@@ -16,7 +16,7 @@ public class UIElement extends Entity {
 	}
 
 	@Override
-	public void update(float deltaTime) {
+	public void update() {
 
 	}
 

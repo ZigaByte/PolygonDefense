@@ -1,7 +1,6 @@
 package com.zigabyte.polygondefense.level;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.badlogic.gdx.utils.Queue;
 import com.zigabyte.polygondefense.Game;
@@ -19,7 +18,6 @@ import com.zigabyte.polygondefense.entities.ui.top.ButtonWall;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.input.Controller;
 import com.zigabyte.polygondefense.input.Input;
-import com.zigabyte.polygondefense.level.Tile.State;
 import com.zigabyte.polygondefense.math.Vector2f;
 import com.zigabyte.polygondefense.math.Vector2i;
 
@@ -73,21 +71,21 @@ public class Level {
 		calculateCosts();
 
 		// addEntity(new Tower(this, new Vector2f(200, 200)));
-		for (int i = 0; i < 50; i++) {
-			addEntity(new Mob(this, new Vector2f(start.pos.x - 100, start.pos.y)));
+		for (int i = 0; i < 15; i++) {
+			addEntity(new Mob(this, new Vector2f(start.pos.x - 100 - i * 20, start.pos.y)));
 		}
 
 	}
 
-	private void updateEntities(float deltaTime) {
+	private void updateEntities() {
 		for (int i = 0; i < entities.size(); i++) {
-			entities.get(i).update(deltaTime);
+			entities.get(i).update();
 		}
 	}
 
-	private void updateUI(float deltaTime) {
+	private void updateUI() {
 		for (int i = 0; i < ui.size(); i++) {
-			ui.get(i).update(deltaTime);
+			ui.get(i).update();
 		}
 	}
 
@@ -116,12 +114,12 @@ public class Level {
 	/**
 	 * Update all the entities and process input
 	 */
-	public void update(float deltaTime) {
+	public void update() {		
 		processInput();
 
-		updateEntities(deltaTime);
+		updateEntities();
 
-		updateUI(deltaTime);
+		updateUI();
 	}
 
 	private void renderEntities(Render render) {

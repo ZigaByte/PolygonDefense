@@ -26,7 +26,7 @@ public class MenuBarBottom extends UIElement {
 	}
 
 	@Override
-	public void update(float deltaTime) {
+	public void update() {
 
 	}
 

@@ -6,7 +6,7 @@ import java.util.Comparator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.zigabyte.polygondefense.entities.Entity;
+import com.zigabyte.polygondefense.entities.EntityMovable;
 import com.zigabyte.polygondefense.entities.mobs.Mob;
 import com.zigabyte.polygondefense.entities.projectile.Projectile;
 import com.zigabyte.polygondefense.graphics.Polygon;
@@ -14,7 +14,7 @@ import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.level.Level;
 import com.zigabyte.polygondefense.math.Vector2f;
 
-public abstract class Tower extends Entity {
+public abstract class Tower extends EntityMovable {
 
 	protected final int SIZE = 40;
 
@@ -25,7 +25,7 @@ public abstract class Tower extends Entity {
 
 	// Variables that define the traits of the tower
 	private float damage = 15;
-	private float attackSpeed = 1; // Time between shots.
+	private float attackSpeed = 1; // Time between shots. Per second
 	private float range = 300;
 	private boolean attackAll = false;
 
@@ -71,7 +71,7 @@ public abstract class Tower extends Entity {
 		}
 	}
 
-	private void updatePosition(float deltaTimes) {
+	protected void move(float deltaTime) {
 		if (active) {
 			Vector2f direction = pos.sub(target.pos).normal();
 			rotation = direction.getAngle();
@@ -88,7 +88,7 @@ public abstract class Tower extends Entity {
 
 	private void updateShooting(float deltaTime) {
 		if (shootTimer >= 0) {
-			shootTimer -= Gdx.graphics.getDeltaTime();
+			shootTimer -= deltaTime;
 		}
 
 		if (active) {
@@ -109,12 +109,12 @@ public abstract class Tower extends Entity {
 	}
 
 	@Override
-	public void update(float deltaTime) {
+	public void update() {
 		updateTarget();
 
-		updatePosition(deltaTime);
+		move(Gdx.graphics.getDeltaTime());
 
-		updateShooting(deltaTime);
+		updateShooting(Gdx.graphics.getDeltaTime());
 	}
 
 	@Override

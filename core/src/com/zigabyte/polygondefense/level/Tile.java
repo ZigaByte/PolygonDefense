@@ -53,7 +53,7 @@ public class Tile extends Entity {
 	}
 
 	@Override
-	public void update(float deltaTime) {
+	public void update() {
 
 	}
 

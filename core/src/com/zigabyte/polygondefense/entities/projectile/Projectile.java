@@ -1,17 +1,19 @@
 package com.zigabyte.polygondefense.entities.projectile;
 
+import com.badlogic.gdx.Gdx;
 import com.zigabyte.polygondefense.entities.Entity;
+import com.zigabyte.polygondefense.entities.EntityMovable;
 import com.zigabyte.polygondefense.entities.mobs.Mob;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.graphics.SpriteLoader;
 import com.zigabyte.polygondefense.level.Level;
 import com.zigabyte.polygondefense.math.Vector2f;
 
-public class Projectile extends Entity {
+public class Projectile extends EntityMovable {
 
 	protected Mob target;
 
-	private float speed;
+	protected float speed; // Per second
 	public float damage;
 
 	public Projectile(Level level, Vector2f pos, Mob target, float damage) {
@@ -19,7 +21,7 @@ public class Projectile extends Entity {
 		this.target = target;
 		this.damage = damage;
 
-		this.speed = 5;
+		this.speed = 200;
 	}
 
 	/**
@@ -34,12 +36,12 @@ public class Projectile extends Entity {
 	/**
 	 * Move the projectile towards the target mob.
 	 * */
-	private void updatePosition(float deltaTime) {
+	protected void move(float deltaTime) {
 		Vector2f relative = target.pos.sub(this.pos);
 		float distance = relative.length();
 
 		Vector2f direction = relative.normal();
-		pos = pos.add(direction.mul(speed));
+		pos = pos.add(direction.mul(speed * deltaTime));
 
 		// Calculate the rotation of the mob
 		rotation = direction.getAngle();
@@ -53,8 +55,8 @@ public class Projectile extends Entity {
 	}
 
 	@Override
-	public void update(float deltaTime) {
-		updatePosition(deltaTime);
+	public void update() {
+		move(Gdx.graphics.getDeltaTime());
 
 		if (target.dead)
 			level.removeEntity(this);

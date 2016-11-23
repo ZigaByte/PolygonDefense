@@ -1,7 +1,9 @@
 package com.zigabyte.polygondefense.entities.mobs;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.zigabyte.polygondefense.entities.Entity;
+import com.zigabyte.polygondefense.entities.EntityMovable;
 import com.zigabyte.polygondefense.entities.Node;
 import com.zigabyte.polygondefense.entities.projectile.Projectile;
 import com.zigabyte.polygondefense.entities.tower.Tower;
@@ -10,7 +12,7 @@ import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.level.Level;
 import com.zigabyte.polygondefense.math.Vector2f;
 
-public class Mob extends Entity {
+public class Mob extends EntityMovable {
 
 	protected Polygon p;
 	protected Color color;
@@ -19,7 +21,7 @@ public class Mob extends Entity {
 
 	protected final float MAX_HEALTH;
 	protected float health;
-	protected float movementSpeed = 8;
+	protected float movementSpeed = 50; // Per second
 
 	public boolean dead = false;
 
@@ -58,9 +60,9 @@ public class Mob extends Entity {
 		}
 	}
 
-	private void move(float deltaTime) {
+	protected void move(float deltaTime) {
 		Vector2f direction = node.pos.sub(this.pos).normal();
-		pos = pos.add(direction.mul(movementSpeed));
+		pos = pos.add(direction.mul(movementSpeed * deltaTime));
 
 		// Calculate the rotation of the mob
 		rotation = direction.getAngle();
@@ -69,7 +71,7 @@ public class Mob extends Entity {
 	}
 
 	@Override
-	public void update(float deltaTime) {
+	public void update() {
 		if (node == null) {
 			node = level.getNode(0);
 		}
@@ -86,7 +88,7 @@ public class Mob extends Entity {
 			}
 		}
 
-		move(deltaTime);
+		move(Gdx.graphics.getDeltaTime());
 	}
 
 	@Override

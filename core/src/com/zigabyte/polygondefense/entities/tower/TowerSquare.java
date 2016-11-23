@@ -11,5 +11,4 @@ public class TowerSquare extends Tower {
 		polygon = new Polygon(4, SIZE);
 
 	}
-
 }
