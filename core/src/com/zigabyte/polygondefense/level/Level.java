@@ -47,6 +47,8 @@ public class Level {
 	public Tile start;
 	public Tile exit;
 
+	private Wave wave; // Current wave
+	
 	public Level(Game game) {
 		this.game = game;
 
@@ -69,12 +71,15 @@ public class Level {
 		exit.createNode(true);
 
 		calculateCosts();
+		
+		wave = new Wave(0, this);
 
+/*
 		// addEntity(new Tower(this, new Vector2f(200, 200)));
 		for (int i = 0; i < 15; i++) {
 			addEntity(new Mob(this, new Vector2f(start.pos.x - 100 - i * 20, start.pos.y)));
 		}
-
+*/
 	}
 
 	private void updateEntities() {
@@ -120,6 +125,15 @@ public class Level {
 		updateEntities();
 
 		updateUI();
+		
+		// Temporary
+		if(!wave.hasStarted()){
+			wave.spawnMobs();
+		}
+		
+		if(wave.hasEnded()){
+			wave = new Wave(wave.INDEX + 1, this);
+		}
 	}
 
 	private void renderEntities(Render render) {
@@ -169,6 +183,10 @@ public class Level {
 		entities.add(e);
 	}
 
+	public void addEntities(ArrayList<Entity> mobs) {
+		entities.addAll(mobs);
+	}
+	
 	public void removeEntity(Entity e) {
 		entities.remove(e);
 	}

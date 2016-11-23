@@ -2,7 +2,6 @@ package com.zigabyte.polygondefense.entities.mobs;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.EntityMovable;
 import com.zigabyte.polygondefense.entities.Node;
 import com.zigabyte.polygondefense.entities.projectile.Projectile;

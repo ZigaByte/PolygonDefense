@@ -25,7 +25,7 @@ public abstract class Tower extends EntityMovable {
 
 	// Variables that define the traits of the tower
 	private float damage = 15;
-	private float attackSpeed = 1; // Time between shots. Per second
+	private float attackSpeed = 0.5f; // Time between shots. Per second
 	private float range = 300;
 	private boolean attackAll = false;
 
