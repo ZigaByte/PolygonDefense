@@ -24,6 +24,9 @@ public class Node extends Entity {
 	}
 
 	@Override
+	/**
+	 * Only a debug feature - should not be used in deployment
+	 * */
 	public void render(Render render) {
 		render.shapeRenderer.setColor(Color.RED);
 		render.beginRenderer(render.shapeRenderer);

@@ -18,9 +18,9 @@ public class Mob extends EntityMovable {
 
 	protected Node node;
 
-	protected final float MAX_HEALTH;
+	protected float MAX_HEALTH;
 	protected float health;
-	protected float movementSpeed = 50; // Per second
+	protected float movementSpeed = 100; // Per second
 
 	public boolean dead = false;
 
@@ -42,7 +42,7 @@ public class Mob extends EntityMovable {
 	 * */
 	private void updateColor() {
 		float ratio = health / MAX_HEALTH;
-		color.set(ratio, 1 - ratio, 0, 1);
+		color.set(1-ratio, ratio, 0, 1);
 	}
 
 	public void hit(Projectile p) {

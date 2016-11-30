@@ -33,9 +33,16 @@ public class Render {
 		camera.update();
 	}
 
-	public void drawText() {
+	/**
+	 * Only works for 1 size for the moment. 
+	 * 
+	 * TODO: Expand into multiple needed font sizes.
+	 * */
+	public void drawText(String text, Color color, float x, float y) {
 		beginRenderer(spriteBatch);
-		font.draw(spriteBatch, "Hello Sir.", 300, 300);
+		
+		font.setColor(color);
+		font.draw(spriteBatch, text, x, y);
 	}
 
 	public void drawPolygon(Polygon p) {
@@ -96,6 +103,13 @@ public class Render {
 
 		shapeRenderer.rotate(0, 0, 1, -rotation);
 		shapeRenderer.translate(-(x + w / 2), -(y + h / 2), 0);
+	}
+	
+	public void drawCirlce(Color color, float x, float y, float radius){
+		beginRenderer(shapeRenderer);
+		
+		shapeRenderer.setColor(color);
+		shapeRenderer.circle(x, y, radius);
 	}
 
 	public void drawLine(float x0, float y0, float x1, float y1) {

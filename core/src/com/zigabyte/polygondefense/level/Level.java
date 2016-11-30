@@ -73,13 +73,6 @@ public class Level {
 		calculateCosts();
 		
 		wave = new Wave(0, this);
-
-/*
-		// addEntity(new Tower(this, new Vector2f(200, 200)));
-		for (int i = 0; i < 15; i++) {
-			addEntity(new Mob(this, new Vector2f(start.pos.x - 100 - i * 20, start.pos.y)));
-		}
-*/
 	}
 
 	private void updateEntities() {

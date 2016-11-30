@@ -4,14 +4,15 @@ import java.util.ArrayList;
 
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.mobs.Mob;
+import com.zigabyte.polygondefense.entities.mobs.Mob2;
 
 public class Wave {
 
 	public static int spawns[][] = {
-			{3},
-			{5},
-			{10},
-			{15}};
+			{3, 2},
+			{5, 2},
+			{10, 5},
+			{30, 9}};
 	
 	private Level level;
 	public final int INDEX;
@@ -47,11 +48,21 @@ public class Wave {
 	 * */
 	private void generateMobs(){
 		mobs = new ArrayList<Entity>();
-		
-		int n = spawns[INDEX][0];
-		for(int i = 0; i < n; i++){
-			// Add a mob at the start location and move it left
-			mobs.add(new Mob(level, level.start.getCenter().add(- 100 - i * 20, 0)));
+		int k = 0;
+		{
+			int n = spawns[INDEX][0];
+			k += n;
+			for(int i = 0; i < n; i++){
+				// Add a mob at the start location and move it left
+				mobs.add(new Mob(level, level.start.getCenter().add(- 100 - i * 50, 0)));
+			}
+		}
+		{
+			int n = spawns[INDEX][1];
+			for(int i = 0; i < n; i++){
+				// Add a mob at the start location and move it left
+				mobs.add(new Mob2(level, level.start.getCenter().add(- 100 - (i+k) * 50, 0)));
+			}
 		}
 	}
 	

@@ -9,7 +9,7 @@ import com.zigabyte.polygondefense.math.Vector2f;
 
 public abstract class Entity {
 	
-	protected static Random random = new Random();
+	protected static final Random random = new Random();
 
 	protected Level level;
 

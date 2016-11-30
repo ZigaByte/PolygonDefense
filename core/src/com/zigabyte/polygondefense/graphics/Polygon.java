@@ -15,7 +15,6 @@ public class Polygon {
 	}
 
 	public Polygon(int verts, float size) {
-
 		// /generate the polygon coorinates
 		float[] v = new float[verts * 2];
 		for (int i = 0; i < verts; i += 1) {

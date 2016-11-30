@@ -71,7 +71,6 @@ public abstract class Button extends UIElement {
 				pressed();
 				level.controller.state = State.ACTIVE;
 			}
-
 	}
 
 	@Override

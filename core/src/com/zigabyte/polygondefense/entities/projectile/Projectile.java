@@ -1,11 +1,10 @@
 package com.zigabyte.polygondefense.entities.projectile;
 
 import com.badlogic.gdx.Gdx;
-import com.zigabyte.polygondefense.entities.Entity;
+import com.badlogic.gdx.graphics.Color;
 import com.zigabyte.polygondefense.entities.EntityMovable;
 import com.zigabyte.polygondefense.entities.mobs.Mob;
 import com.zigabyte.polygondefense.graphics.Render;
-import com.zigabyte.polygondefense.graphics.SpriteLoader;
 import com.zigabyte.polygondefense.level.Level;
 import com.zigabyte.polygondefense.math.Vector2f;
 
@@ -34,7 +33,7 @@ public class Projectile extends EntityMovable {
 	}
 
 	/**
-	 * Move the projectile towards the target mob.
+	 * Move the projectile towards the target mob and check if it collides.	
 	 * */
 	protected void move(float deltaTime) {
 		Vector2f relative = target.pos.sub(this.pos);
@@ -49,6 +48,7 @@ public class Projectile extends EntityMovable {
 			rotation += 3.14f;
 		rotation += 3.14f / 2;
 
+		// Check collision
 		if (distance < 50) {
 			hit();
 		}
@@ -64,7 +64,7 @@ public class Projectile extends EntityMovable {
 
 	@Override
 	public void render(Render render) {
-		render.drawTexture(SpriteLoader.getTest(), pos.x - 5, pos.y - 5, 20, 30, rotation);
+		render.drawCirlce(Color.BLACK, pos.x, pos.y, 5);
 	}
 
 }
