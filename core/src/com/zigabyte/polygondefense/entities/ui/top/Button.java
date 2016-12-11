@@ -12,22 +12,25 @@ import com.zigabyte.polygondefense.math.Rectangle;
 import com.zigabyte.polygondefense.math.Vector2f;
 
 public abstract class Button extends UIElement {
+
 	protected Rectangle rect;
 	protected Polygon background;
 	protected Color color;
 
-	protected int offset = 0;
+	protected Vector2f size;
 
-	public Button(Level level) {
+	public Button(Level level, Vector2f pos, Vector2f size) {
 		super(level);
+		this.pos = pos;
+		this.size = size;
 
-		int width = 288;
-		int height = 100;
+		float width = size.x;
+		float height = size.y;
 		float v[] = { 0, 0, width, 0, width, height, 0, height };
 		background = new Polygon(v);
 		color = Color.BLACK;
 
-		rect = new Rectangle(new Vector2f(100, 900 - height), new Vector2f(100 + width, 900));
+		rect = new Rectangle(new Vector2f(pos.x, pos.y), new Vector2f(pos.x + width, pos.y + height));
 	}
 
 	public abstract void pressed();
@@ -75,7 +78,7 @@ public abstract class Button extends UIElement {
 
 	@Override
 	public void render(Render render) {
-		render.drawPolygon(background, color, 100 + offset, 800);
+		render.drawPolygon(background, color, pos.x, 800);
 	}
 
 }

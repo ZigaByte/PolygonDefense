@@ -8,6 +8,7 @@ import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
 import com.zigabyte.polygondefense.entities.mobs.Mob;
 import com.zigabyte.polygondefense.entities.tower.TowerTriangle;
+import com.zigabyte.polygondefense.entities.ui.DockTop;
 import com.zigabyte.polygondefense.entities.ui.MenuBarBottom;
 import com.zigabyte.polygondefense.entities.ui.UIElement;
 import com.zigabyte.polygondefense.entities.ui.top.ButtonHexagon;
@@ -48,20 +49,15 @@ public class Level {
 	public Tile exit;
 
 	private Wave wave; // Current wave
-	
+
 	public Level(Game game) {
 		this.game = game;
 
 		controller = new Controller(this);
 
-		addEntity(new TowerTriangle(this, new Vector2f(350, 650)));
+		ui.add(new DockTop(this));
 
 		ui.add(new MenuBarBottom(this));
-		ui.add(new ButtonTriangle(this));
-		ui.add(new ButtonSquare(this));
-		ui.add(new ButtonPentagon(this));
-		ui.add(new ButtonHexagon(this));
-		ui.add(new ButtonWall(this));
 
 		LevelLoader loader = new LevelLoader();
 		loader.loadLevel(1, this);
@@ -71,7 +67,7 @@ public class Level {
 		exit.createNode(true);
 
 		calculateCosts();
-		
+
 		wave = new Wave(0, this);
 	}
 
@@ -112,19 +108,19 @@ public class Level {
 	/**
 	 * Update all the entities and process input
 	 */
-	public void update() {		
+	public void update() {
 		processInput();
 
 		updateEntities();
 
 		updateUI();
-		
+
 		// Temporary
-		if(!wave.hasStarted()){
+		if (!wave.hasStarted()) {
 			wave.spawnMobs();
 		}
-		
-		if(wave.hasEnded()){
+
+		if (wave.hasEnded()) {
 			wave = new Wave(wave.INDEX + 1, this);
 		}
 	}
@@ -162,13 +158,15 @@ public class Level {
 		// DEBUG LINES
 		for (int i = 0; i < TILES_X; i++) {
 			if (i < TILES_Y)
-				render.drawLine(X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM, LEVEL_WIDTH + X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM);
-			render.drawLine(TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM, TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM + LEVEL_HEIGHT);
+				render.drawLine(X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM, LEVEL_WIDTH + X_PADDING_LEFT,
+						TILE_HEIGHT * i + Y_PADDING_BOTTOM);
+			render.drawLine(TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM, TILE_WIDTH * i + X_PADDING_LEFT,
+					Y_PADDING_BOTTOM + LEVEL_HEIGHT);
 		}
 
 		renderTiles(render);
 		renderEntities(render);
-		//renderNodes(render);
+		// renderNodes(render);
 		renderUI(render);
 	}
 
@@ -179,7 +177,7 @@ public class Level {
 	public void addEntities(ArrayList<Entity> mobs) {
 		entities.addAll(mobs);
 	}
-	
+
 	public void removeEntity(Entity e) {
 		entities.remove(e);
 	}
@@ -189,7 +187,7 @@ public class Level {
 	 * 
 	 * @param origin
 	 *            - the tile with the lowest cost (should be the spawn point)
-	 *            
+	 * 
 	 * @return - returns true if the path from start to exit is still unblocked.
 	 */
 	public boolean calculateCosts() {
@@ -227,7 +225,8 @@ public class Level {
 								t.cost = cost;
 								queue.addLast(t);
 
-								// Current node is the next one for all the ones with cost + 1
+								// Current node is the next one for all the ones
+								// with cost + 1
 								t.node.setNext(current.node);
 							}
 						}
