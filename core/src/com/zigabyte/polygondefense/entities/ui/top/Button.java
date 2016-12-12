@@ -19,6 +19,9 @@ public abstract class Button extends UIElement {
 
 	protected Vector2f size;
 
+	protected boolean hidden = false;
+	protected boolean activateController = false;
+
 	public Button(Level level, Vector2f pos, Vector2f size) {
 		super(level);
 		this.pos = pos;
@@ -37,11 +40,16 @@ public abstract class Button extends UIElement {
 
 	@Override
 	public boolean processInput(Vector2f input) {
+		if (hidden)
+			return false;
+
 		boolean process = rect.isInside(input);
 
 		if (process) {
-			level.controller.state = State.ACTIVE;
 			pressed();
+
+			if (activateController)
+				level.controller.state = State.ACTIVE;
 		}
 		return process;
 	}
@@ -78,7 +86,13 @@ public abstract class Button extends UIElement {
 
 	@Override
 	public void render(Render render) {
+		if (hidden)
+			return;
 		render.drawPolygon(background, color, pos.x, 800);
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 
 }

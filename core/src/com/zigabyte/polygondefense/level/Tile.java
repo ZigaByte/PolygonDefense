@@ -81,11 +81,7 @@ public class Tile extends Entity {
 
 		// Draw the inactive if the controller is trying to place something
 		if (level.controller.state == Controller.State.ACTIVE) {
-
-			//color = new Color(1, 0, 0, 0.2f);
 			if (state == State.WALL || state == State.FREE) {
-
-				//color = new Color(1, 0, 0, 0.2f);
 
 				switch (level.controller.mode) {
 				case WALL:
