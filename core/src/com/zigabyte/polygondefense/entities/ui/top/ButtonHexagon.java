@@ -9,8 +9,7 @@ public class ButtonHexagon extends Button {
 
 	public ButtonHexagon(Level level, Vector2f pos, Vector2f size) {
 		super(level, pos, size);
-		
-		color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+
 		activateController = true;
 	}
 

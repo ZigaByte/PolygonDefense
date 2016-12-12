@@ -31,7 +31,7 @@ public abstract class Button extends UIElement {
 		float height = size.y;
 		float v[] = { 0, 0, width, 0, width, height, 0, height };
 		background = new Polygon(v);
-		color = Color.BLACK;
+		color = new Color(0x111111ff);
 
 		rect = new Rectangle(new Vector2f(pos.x, pos.y), new Vector2f(pos.x + width, pos.y + height));
 	}

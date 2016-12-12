@@ -7,15 +7,9 @@ import com.zigabyte.polygondefense.Game;
 import com.zigabyte.polygondefense.entities.Entity;
 import com.zigabyte.polygondefense.entities.Node;
 import com.zigabyte.polygondefense.entities.mobs.Mob;
-import com.zigabyte.polygondefense.entities.tower.TowerTriangle;
+import com.zigabyte.polygondefense.entities.ui.DockBottom;
 import com.zigabyte.polygondefense.entities.ui.DockTop;
-import com.zigabyte.polygondefense.entities.ui.MenuBarBottom;
 import com.zigabyte.polygondefense.entities.ui.UIElement;
-import com.zigabyte.polygondefense.entities.ui.top.ButtonHexagon;
-import com.zigabyte.polygondefense.entities.ui.top.ButtonPentagon;
-import com.zigabyte.polygondefense.entities.ui.top.ButtonSquare;
-import com.zigabyte.polygondefense.entities.ui.top.ButtonTriangle;
-import com.zigabyte.polygondefense.entities.ui.top.ButtonWall;
 import com.zigabyte.polygondefense.graphics.Render;
 import com.zigabyte.polygondefense.input.Controller;
 import com.zigabyte.polygondefense.input.Input;
@@ -56,8 +50,7 @@ public class Level {
 		controller = new Controller(this);
 
 		ui.add(new DockTop(this));
-
-		ui.add(new MenuBarBottom(this));
+		ui.add(new DockBottom(this));
 
 		LevelLoader loader = new LevelLoader();
 		loader.loadLevel(1, this);
@@ -158,10 +151,8 @@ public class Level {
 		// DEBUG LINES
 		for (int i = 0; i < TILES_X; i++) {
 			if (i < TILES_Y)
-				render.drawLine(X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM, LEVEL_WIDTH + X_PADDING_LEFT,
-						TILE_HEIGHT * i + Y_PADDING_BOTTOM);
-			render.drawLine(TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM, TILE_WIDTH * i + X_PADDING_LEFT,
-					Y_PADDING_BOTTOM + LEVEL_HEIGHT);
+				render.drawLine(X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM, LEVEL_WIDTH + X_PADDING_LEFT, TILE_HEIGHT * i + Y_PADDING_BOTTOM);
+			render.drawLine(TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM, TILE_WIDTH * i + X_PADDING_LEFT, Y_PADDING_BOTTOM + LEVEL_HEIGHT);
 		}
 
 		renderTiles(render);

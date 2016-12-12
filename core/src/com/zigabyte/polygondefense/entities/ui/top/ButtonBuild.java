@@ -17,13 +17,12 @@ public class ButtonBuild extends Button {
 		float step = size.y / 2;
 		float[] v = { 0, 0, size.x - step, 0, size.x, step, size.x - step, size.y, 0, size.x };
 		background = new Polygon(v);
-		color = Color.BLACK;
+		color = new Color(0x464646ff);
 	}
 
 	@Override
 	public void pressed() {
 		dock.toggle();
-		System.out.println("Toggled");
 	}
 
 }

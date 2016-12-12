@@ -10,7 +10,6 @@ public class ButtonTriangle extends Button {
 
 	public ButtonTriangle(Level level, Vector2f pos, Vector2f size) {
 		super(level, pos, size);
-		color = new Color(0.75f, 0.25f, 0.25f, 0.5f);
 		activateController = true;
 	}
 

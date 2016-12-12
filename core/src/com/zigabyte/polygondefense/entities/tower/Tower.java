@@ -121,11 +121,12 @@ public abstract class Tower extends EntityMovable {
 	public void render(Render render) {
 		render.drawPolygon(polygon, new Color(0, 0, 0, 0.5f), pos.x + 9, pos.y + 5, rotation);
 		render.drawPolygon(polygon, color, pos.x, pos.y, rotation);
-
+		/*
+		// Debug line to enemy
 		if (active) {
 			render.shapeRenderer.setColor(0, 0, 0, 1);
 			render.shapeRenderer.line(pos.x, pos.y, target.pos.x, target.pos.y);
-		}
+		}*/
 	}
 
 }

@@ -9,7 +9,6 @@ public class ButtonWall extends Button {
 
 	public ButtonWall(Level level, Vector2f pos, Vector2f size) {
 		super(level, pos, size);
-		color = new Color(0.25f, 0.25f, 0.25f, 0.5f);
 		activateController = true;
 	}
 

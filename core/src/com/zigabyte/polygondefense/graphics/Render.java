@@ -40,7 +40,7 @@ public class Render {
 	 * */
 	public void drawText(String text, Color color, float x, float y) {
 		beginRenderer(spriteBatch);
-		
+
 		font.setColor(color);
 		font.draw(spriteBatch, text, x, y);
 	}
@@ -73,7 +73,6 @@ public class Render {
 		rotation = rotation * 180 / 3.14f; // Convert to degrees
 
 		shapeRenderer.setColor(color);
-		// shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 0.5f);
 
 		// Draw the individual vertices triangles with vertices
 
@@ -92,7 +91,7 @@ public class Render {
 
 	public void drawRectangle(Color color, float x, float y, float w, float h) {
 		beginRenderer(shapeRenderer);
-		
+
 		shapeRenderer.setColor(color);
 
 		float rotation = 0;
@@ -104,10 +103,10 @@ public class Render {
 		shapeRenderer.rotate(0, 0, 1, -rotation);
 		shapeRenderer.translate(-(x + w / 2), -(y + h / 2), 0);
 	}
-	
-	public void drawCirlce(Color color, float x, float y, float radius){
+
+	public void drawCirlce(Color color, float x, float y, float radius) {
 		beginRenderer(shapeRenderer);
-		
+
 		shapeRenderer.setColor(color);
 		shapeRenderer.circle(x, y, radius);
 	}

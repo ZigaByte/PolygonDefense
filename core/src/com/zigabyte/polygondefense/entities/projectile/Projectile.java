@@ -20,7 +20,7 @@ public class Projectile extends EntityMovable {
 		this.target = target;
 		this.damage = damage;
 
-		this.speed = 200;
+		this.speed = 300;
 	}
 
 	/**
